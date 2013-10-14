@@ -31,11 +31,21 @@
      RET     : void
 ---------------------------------------------------------------------------*/
 void Hw_Led_Init( void )
-{		
+{
+	u32 PinNum;
+
+	//-- JTAG 핀을 Disable하고 PB3,4를 GPIO로 사용한다.(핀구성에 따라 사용하지 않을수 있음)
+	//
+	REG_AFIO_MAPR &= ~(0x07 << 24);
+	REG_AFIO_MAPR |=  (0x04 << 24);
+	
+	PinNum = 3;
+	REG_GPIOB_CRL &= ~(0x0F << (PinNum*4+0));	// Clear
+	REG_GPIOB_CRL |=  (0x03 << (PinNum*4+0));	// MODE, PB.3 Output mode, max speed 50Mhz
+	REG_GPIOB_CRL |=  (0x00 << (PinNum*4+2));	// CNF,  PB.3 General purpose output push-pul
+	
+		
 	Hw_Led_Off(0);
-	Hw_Led_Off(1);
-	Hw_Led_Off(2);
-	Hw_Led_Off(3);
 }
 
 
@@ -53,20 +63,8 @@ void Hw_Led_On( u8 Ch )
 	switch( Ch )
 	{
 		case 0:
-			Hw_VBus_ClrBit( HW_VBUS_CS_LED_1, 0 );
+			CLR_BIT( REG_GPIOB_ODR, 3 );
 			break;
-
-		case 1:
-			Hw_VBus_ClrBit( HW_VBUS_CS_LED_1, 1 );
-			break;
-			
-		case 2:
-			Hw_VBus_ClrBit( HW_VBUS_CS_LED_1, 2 );
-			break;
-
-		case 3:
-			Hw_VBus_ClrBit( HW_VBUS_CS_LED_1, 3 );
-			break;			
 	}
 }
 
@@ -85,20 +83,8 @@ void Hw_Led_Off( u8 Ch )
 	switch( Ch )
 	{
 		case 0:
-			Hw_VBus_SetBit( HW_VBUS_CS_LED_1, 0 );
+			SET_BIT( REG_GPIOB_ODR, 3 );
 			break;
-
-		case 1:
-			Hw_VBus_SetBit( HW_VBUS_CS_LED_1, 1 );
-			break;
-
-		case 2:
-			Hw_VBus_SetBit( HW_VBUS_CS_LED_1, 2 );
-			break;
-
-		case 3:
-			Hw_VBus_SetBit( HW_VBUS_CS_LED_1, 3 );
-			break;			
 	}
 }
 
@@ -107,7 +93,7 @@ void Hw_Led_Off( u8 Ch )
 
 
 /*---------------------------------------------------------------------------
-     TITLE   : Hw_Led_Toggle
+     TITLE   : Hw_Led_On
      WORK    :
      ARG     : void
      RET     : void
@@ -117,20 +103,8 @@ void Hw_Led_Toggle( u8 Ch )
 	switch( Ch )
 	{
 		case 0:
-			Hw_VBus_TglBit( HW_VBUS_CS_LED_1, 0 );
+			TGL_BIT( REG_GPIOB_ODR, 3 );
 			break;
-
-		case 1:
-			Hw_VBus_TglBit( HW_VBUS_CS_LED_1, 1 );
-			break;
-
-		case 2:
-			Hw_VBus_TglBit( HW_VBUS_CS_LED_1, 2 );
-			break;
-
-		case 3:
-			Hw_VBus_TglBit( HW_VBUS_CS_LED_1, 3 );
-			break;			
 	}
 }
 

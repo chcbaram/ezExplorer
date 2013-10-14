@@ -11,1279 +11,1436 @@
   11              		.eabi_attribute 34, 1
   12              		.eabi_attribute 18, 4
   13              		.thumb
-  14              		.file	"Ap_EduMenu.c"
+  14              		.file	"Hw_DcMotor.c"
   15              		.text
   16              	.Ltext0:
   17              		.cfi_sections	.debug_frame
-  18              		.section	.text.KeyPad_DownKeyEvent,"ax",%progbits
+  18              		.section	.text.Hw_DcMotor_Run,"ax",%progbits
   19              		.align	2
-  20              		.global	KeyPad_DownKeyEvent
+  20              		.global	Hw_DcMotor_Run
   21              		.thumb
   22              		.thumb_func
-  24              	KeyPad_DownKeyEvent:
-  25              	.LFB1:
-  26              		.file 1 "../LIB_AP/Ap_EduMenu.c"
-   1:../LIB_AP/Ap_EduMenu.c **** //----------------------------------------------------------------------------
-   2:../LIB_AP/Ap_EduMenu.c **** //    프로그램명 	: Edu Menu 관련 함수
-   3:../LIB_AP/Ap_EduMenu.c **** //
-   4:../LIB_AP/Ap_EduMenu.c **** //    만든이     	: Cho Han Cheol
-   5:../LIB_AP/Ap_EduMenu.c **** //
-   6:../LIB_AP/Ap_EduMenu.c **** //    날  짜     	: 
-   7:../LIB_AP/Ap_EduMenu.c **** //    
-   8:../LIB_AP/Ap_EduMenu.c **** //    최종 수정  	: 
-   9:../LIB_AP/Ap_EduMenu.c **** //
-  10:../LIB_AP/Ap_EduMenu.c **** //    MPU_Type		:
-  11:../LIB_AP/Ap_EduMenu.c **** //
-  12:../LIB_AP/Ap_EduMenu.c **** //    파일명     	: Ap_EduMenu.h
-  13:../LIB_AP/Ap_EduMenu.c **** //----------------------------------------------------------------------------
-  14:../LIB_AP/Ap_EduMenu.c **** 
-  15:../LIB_AP/Ap_EduMenu.c **** 
-  16:../LIB_AP/Ap_EduMenu.c **** 
-  17:../LIB_AP/Ap_EduMenu.c **** //----- 헤더파일 열기
-  18:../LIB_AP/Ap_EduMenu.c **** //
-  19:../LIB_AP/Ap_EduMenu.c **** #define  AP_EDUMENU_LOCAL
-  20:../LIB_AP/Ap_EduMenu.c **** 
-  21:../LIB_AP/Ap_EduMenu.c **** #include "Ap_EduMenu.h"
-  22:../LIB_AP/Ap_EduMenu.c **** 
-  23:../LIB_AP/Ap_EduMenu.c **** 
-  24:../LIB_AP/Ap_EduMenu.c **** 
-  25:../LIB_AP/Ap_EduMenu.c **** //-- 내부 선언
-  26:../LIB_AP/Ap_EduMenu.c **** //
-  27:../LIB_AP/Ap_EduMenu.c **** 
-  28:../LIB_AP/Ap_EduMenu.c **** 
-  29:../LIB_AP/Ap_EduMenu.c **** 
-  30:../LIB_AP/Ap_EduMenu.c **** //-- 내부 변수
-  31:../LIB_AP/Ap_EduMenu.c **** //
-  32:../LIB_AP/Ap_EduMenu.c **** u16 Seg_Count = 0;
-  33:../LIB_AP/Ap_EduMenu.c **** 
-  34:../LIB_AP/Ap_EduMenu.c **** 
-  35:../LIB_AP/Ap_EduMenu.c **** //-- 내부 함수
-  36:../LIB_AP/Ap_EduMenu.c **** //
-  37:../LIB_AP/Ap_EduMenu.c **** void Ap_EduMenu_ShowMenu(void);
-  38:../LIB_AP/Ap_EduMenu.c **** 
-  39:../LIB_AP/Ap_EduMenu.c **** 
-  40:../LIB_AP/Ap_EduMenu.c **** 
-  41:../LIB_AP/Ap_EduMenu.c **** void KeyPad_UpKeyEvent( u32 Event )
-  42:../LIB_AP/Ap_EduMenu.c **** {
-  43:../LIB_AP/Ap_EduMenu.c **** 	if( Event == HW_KEYPAD_EVENT_RELEASED || Event == HW_KEYPAD_EVENT_REPEAT )
-  44:../LIB_AP/Ap_EduMenu.c **** 	{
-  45:../LIB_AP/Ap_EduMenu.c **** 		Hw_7Seg_Print( 0, "%d", Seg_Count++ );
-  46:../LIB_AP/Ap_EduMenu.c **** 	}
-  47:../LIB_AP/Ap_EduMenu.c **** }
-  48:../LIB_AP/Ap_EduMenu.c **** 
-  49:../LIB_AP/Ap_EduMenu.c **** void KeyPad_DownKeyEvent( u32 Event )
-  50:../LIB_AP/Ap_EduMenu.c **** {
-  27              		.loc 1 50 0
+  24              	Hw_DcMotor_Run:
+  25              	.LFB2:
+  26              		.file 1 "../LIB_HW/Hw_DcMotor.c"
+   1:../LIB_HW/Hw_DcMotor.c **** //----------------------------------------------------------------------------
+   2:../LIB_HW/Hw_DcMotor.c **** //    프로그램명 	: DC 모터 관련 함수
+   3:../LIB_HW/Hw_DcMotor.c **** //
+   4:../LIB_HW/Hw_DcMotor.c **** //    만든이     	: Cho Han Cheol
+   5:../LIB_HW/Hw_DcMotor.c **** //
+   6:../LIB_HW/Hw_DcMotor.c **** //    날  짜     	: 2013. 1. 22.
+   7:../LIB_HW/Hw_DcMotor.c **** //    
+   8:../LIB_HW/Hw_DcMotor.c **** //    최종 수정  	:
+   9:../LIB_HW/Hw_DcMotor.c **** //
+  10:../LIB_HW/Hw_DcMotor.c **** //    MPU_Type	:
+  11:../LIB_HW/Hw_DcMotor.c **** //
+  12:../LIB_HW/Hw_DcMotor.c **** //    파일명     	: Hw_DcMotor.c
+  13:../LIB_HW/Hw_DcMotor.c **** //----------------------------------------------------------------------------
+  14:../LIB_HW/Hw_DcMotor.c **** 
+  15:../LIB_HW/Hw_DcMotor.c **** 
+  16:../LIB_HW/Hw_DcMotor.c **** //----- 헤더파일 열기
+  17:../LIB_HW/Hw_DcMotor.c **** //
+  18:../LIB_HW/Hw_DcMotor.c **** #define  HW_DCMOTOR_LOCAL
+  19:../LIB_HW/Hw_DcMotor.c **** 
+  20:../LIB_HW/Hw_DcMotor.c **** #include "Hw_DcMotor.h"
+  21:../LIB_HW/Hw_DcMotor.c **** 
+  22:../LIB_HW/Hw_DcMotor.c **** 
+  23:../LIB_HW/Hw_DcMotor.c **** 
+  24:../LIB_HW/Hw_DcMotor.c **** #define HW_DCMOTOR_MAX_CNT			10
+  25:../LIB_HW/Hw_DcMotor.c **** 
+  26:../LIB_HW/Hw_DcMotor.c **** #define HW_DCMOTOR_STATE_IDLE		0
+  27:../LIB_HW/Hw_DcMotor.c **** #define HW_DCMOTOR_STATE_STOP		1
+  28:../LIB_HW/Hw_DcMotor.c **** #define HW_DCMOTOR_STATE_RUN		2
+  29:../LIB_HW/Hw_DcMotor.c **** 
+  30:../LIB_HW/Hw_DcMotor.c **** 
+  31:../LIB_HW/Hw_DcMotor.c **** 
+  32:../LIB_HW/Hw_DcMotor.c **** 
+  33:../LIB_HW/Hw_DcMotor.c **** 
+  34:../LIB_HW/Hw_DcMotor.c **** void Hw_DcMotor_Tick( void )
+  35:../LIB_HW/Hw_DcMotor.c **** {
+  36:../LIB_HW/Hw_DcMotor.c **** 	u8  i;
+  37:../LIB_HW/Hw_DcMotor.c **** 	u16 DutyRatio;
+  38:../LIB_HW/Hw_DcMotor.c **** 
+  39:../LIB_HW/Hw_DcMotor.c **** 	static u16 Cnt = 0;
+  40:../LIB_HW/Hw_DcMotor.c **** 
+  41:../LIB_HW/Hw_DcMotor.c **** 
+  42:../LIB_HW/Hw_DcMotor.c **** 	for( i=0; i<HW_DCMOTOR_MAX_CH; i++ )
+  43:../LIB_HW/Hw_DcMotor.c **** 	{
+  44:../LIB_HW/Hw_DcMotor.c **** 		if( Cnt == 0 )
+  45:../LIB_HW/Hw_DcMotor.c **** 		{
+  46:../LIB_HW/Hw_DcMotor.c **** 			if( Hw_DcMotor_State[i].Speed > 0 && Hw_DcMotor_State[i].Dir != HW_DCMOTOR_STOP )
+  47:../LIB_HW/Hw_DcMotor.c **** 			{
+  48:../LIB_HW/Hw_DcMotor.c **** 				Hw_DcMotor_Run( i, Hw_DcMotor_State[i].Dir );
+  49:../LIB_HW/Hw_DcMotor.c **** 				Hw_DcMotor_State[i].Pin = TRUE;
+  50:../LIB_HW/Hw_DcMotor.c **** 			}
+  51:../LIB_HW/Hw_DcMotor.c **** 			else
+  52:../LIB_HW/Hw_DcMotor.c **** 			{
+  53:../LIB_HW/Hw_DcMotor.c **** 				Hw_DcMotor_Stop(i);
+  54:../LIB_HW/Hw_DcMotor.c **** 				Hw_DcMotor_State[i].Pin = FALSE;
+  55:../LIB_HW/Hw_DcMotor.c **** 			}
+  56:../LIB_HW/Hw_DcMotor.c **** 		}
+  57:../LIB_HW/Hw_DcMotor.c **** 		else
+  58:../LIB_HW/Hw_DcMotor.c **** 		{
+  59:../LIB_HW/Hw_DcMotor.c **** 			//-- 카운트 값을 0~100% 값으로 변환
+  60:../LIB_HW/Hw_DcMotor.c **** 			//
+  61:../LIB_HW/Hw_DcMotor.c **** 			DutyRatio = Cnt*HW_DCMOTOR_MAX_PWM/HW_DCMOTOR_MAX_CNT;
+  62:../LIB_HW/Hw_DcMotor.c **** 
+  63:../LIB_HW/Hw_DcMotor.c **** 			if( DutyRatio > Hw_DcMotor_State[i].Speed && Hw_DcMotor_State[i].Pin == TRUE )
+  64:../LIB_HW/Hw_DcMotor.c **** 			{
+  65:../LIB_HW/Hw_DcMotor.c **** 				Hw_DcMotor_Stop(i);
+  66:../LIB_HW/Hw_DcMotor.c **** 				Hw_DcMotor_State[i].Pin = FALSE;
+  67:../LIB_HW/Hw_DcMotor.c **** 			}
+  68:../LIB_HW/Hw_DcMotor.c **** 		}
+  69:../LIB_HW/Hw_DcMotor.c **** 	}
+  70:../LIB_HW/Hw_DcMotor.c **** 
+  71:../LIB_HW/Hw_DcMotor.c **** 
+  72:../LIB_HW/Hw_DcMotor.c **** 	Cnt++;
+  73:../LIB_HW/Hw_DcMotor.c **** 
+  74:../LIB_HW/Hw_DcMotor.c **** 	if( Cnt >= HW_DCMOTOR_MAX_CNT ) Cnt = 0;
+  75:../LIB_HW/Hw_DcMotor.c **** }
+  76:../LIB_HW/Hw_DcMotor.c **** 
+  77:../LIB_HW/Hw_DcMotor.c **** 
+  78:../LIB_HW/Hw_DcMotor.c **** 
+  79:../LIB_HW/Hw_DcMotor.c **** 
+  80:../LIB_HW/Hw_DcMotor.c **** 
+  81:../LIB_HW/Hw_DcMotor.c **** /*---------------------------------------------------------------------------
+  82:../LIB_HW/Hw_DcMotor.c ****      TITLE   : Hw_DcMotor_Init
+  83:../LIB_HW/Hw_DcMotor.c ****      WORK    : 
+  84:../LIB_HW/Hw_DcMotor.c ****      ARG     : void
+  85:../LIB_HW/Hw_DcMotor.c ****      RET     : void
+  86:../LIB_HW/Hw_DcMotor.c **** ---------------------------------------------------------------------------*/
+  87:../LIB_HW/Hw_DcMotor.c **** void Hw_DcMotor_Init( void )
+  88:../LIB_HW/Hw_DcMotor.c **** {
+  89:../LIB_HW/Hw_DcMotor.c **** 	u8 i;
+  90:../LIB_HW/Hw_DcMotor.c **** 
+  91:../LIB_HW/Hw_DcMotor.c **** 
+  92:../LIB_HW/Hw_DcMotor.c **** 	//-- GPIO 설정
+  93:../LIB_HW/Hw_DcMotor.c **** 	//
+  94:../LIB_HW/Hw_DcMotor.c **** 	//-- L0 PB.0
+  95:../LIB_HW/Hw_DcMotor.c **** 	//
+  96:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL &= ~(0x0F << ( 0));	// Clear
+  97:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL |=  (0x03 << ( 0));	// MODE, PB.0 Output mode, max speed 50Mhz
+  98:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL |=  (0x00 << ( 2));	// CNF,  PB.0 General purpose output push-pul	
+  99:../LIB_HW/Hw_DcMotor.c **** 
+ 100:../LIB_HW/Hw_DcMotor.c **** 	//-- L1 PB.1
+ 101:../LIB_HW/Hw_DcMotor.c **** 	//
+ 102:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL &= ~(0x0F << ( 4));	// Clear
+ 103:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL |=  (0x03 << ( 4));	// MODE, PB.1 Output mode, max speed 50Mhz
+ 104:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL |=  (0x00 << ( 6));	// CNF,  PB.1 General purpose output push-pul	
+ 105:../LIB_HW/Hw_DcMotor.c **** 
+ 106:../LIB_HW/Hw_DcMotor.c **** 	//-- L2 PB.2
+ 107:../LIB_HW/Hw_DcMotor.c **** 	//
+ 108:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL &= ~(0x0F << ( 8));	// Clear
+ 109:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL |=  (0x03 << ( 8));	// MODE, PB.2 Output mode, max speed 50Mhz
+ 110:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL |=  (0x00 << (10));	// CNF,  PB.2 General purpose output push-pul	
+ 111:../LIB_HW/Hw_DcMotor.c **** 
+ 112:../LIB_HW/Hw_DcMotor.c **** 	//-- L3 PB.10
+ 113:../LIB_HW/Hw_DcMotor.c **** 	//
+ 114:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << ( 8));	// Clear
+ 115:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x03 << ( 8));	// MODE, PB.2 Output mode, max speed 50Mhz
+ 116:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x00 << (10));	// CNF,  PB.2 General purpose output push-pul	
+ 117:../LIB_HW/Hw_DcMotor.c **** 
+ 118:../LIB_HW/Hw_DcMotor.c **** 	//-- R0 PB.11
+ 119:../LIB_HW/Hw_DcMotor.c **** 	//
+ 120:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << (12));	// Clear
+ 121:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x03 << (12));	// MODE, PB.2 Output mode, max speed 50Mhz
+ 122:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x00 << (14));	// CNF,  PB.2 General purpose output push-pul	
+ 123:../LIB_HW/Hw_DcMotor.c **** 	
+ 124:../LIB_HW/Hw_DcMotor.c **** 	//-- R1 PB.12
+ 125:../LIB_HW/Hw_DcMotor.c **** 	//
+ 126:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << (16));	// Clear
+ 127:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x03 << (16));	// MODE, PB.6 Output mode, max speed 50Mhz
+ 128:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x00 << (18));	// CNF,  PB.6 General purpose output push-pul	
+ 129:../LIB_HW/Hw_DcMotor.c **** 	
+ 130:../LIB_HW/Hw_DcMotor.c **** 	//-- R2 PB.13
+ 131:../LIB_HW/Hw_DcMotor.c **** 	//
+ 132:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << (20));	// Clear
+ 133:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x03 << (20));	// MODE, PB.6 Output mode, max speed 50Mhz
+ 134:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x00 << (22));	// CNF,  PB.6 General purpose output push-pul	
+ 135:../LIB_HW/Hw_DcMotor.c **** 
+ 136:../LIB_HW/Hw_DcMotor.c **** 	//-- R3 PB.14
+ 137:../LIB_HW/Hw_DcMotor.c **** 	//
+ 138:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << (24));	// Clear
+ 139:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x03 << (24));	// MODE, PB.7 Output mode, max speed 50Mhz
+ 140:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x00 << (26));	// CNF,  PB.7 General purpose output push-pul				
+ 141:../LIB_HW/Hw_DcMotor.c **** 
+ 142:../LIB_HW/Hw_DcMotor.c **** 
+ 143:../LIB_HW/Hw_DcMotor.c **** 
+ 144:../LIB_HW/Hw_DcMotor.c **** 
+ 145:../LIB_HW/Hw_DcMotor.c **** 	for( i=0; i<HW_DCMOTOR_MAX_CH; i++ )
+ 146:../LIB_HW/Hw_DcMotor.c **** 	{
+ 147:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_Stop( i );
+ 148:../LIB_HW/Hw_DcMotor.c **** 
+ 149:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].Dir   = HW_DCMOTOR_STOP;
+ 150:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].Pin   = FALSE;
+ 151:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].Speed = 0;
+ 152:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].State = HW_DCMOTOR_STATE_STOP;
+ 153:../LIB_HW/Hw_DcMotor.c **** 	}
+ 154:../LIB_HW/Hw_DcMotor.c **** 
+ 155:../LIB_HW/Hw_DcMotor.c **** 	Hw_Timer_Set  ( HW_TIMER_CH_DCMOTOR, 1, LOOP_TIME, Hw_DcMotor_Tick, NULL );
+ 156:../LIB_HW/Hw_DcMotor.c **** 	Hw_Timer_Start( HW_TIMER_CH_DCMOTOR );
+ 157:../LIB_HW/Hw_DcMotor.c **** }
+ 158:../LIB_HW/Hw_DcMotor.c **** 
+ 159:../LIB_HW/Hw_DcMotor.c **** 
+ 160:../LIB_HW/Hw_DcMotor.c **** 
+ 161:../LIB_HW/Hw_DcMotor.c **** 
+ 162:../LIB_HW/Hw_DcMotor.c **** 
+ 163:../LIB_HW/Hw_DcMotor.c **** /*---------------------------------------------------------------------------
+ 164:../LIB_HW/Hw_DcMotor.c ****      TITLE   : Hw_DcMotor_Run
+ 165:../LIB_HW/Hw_DcMotor.c ****      WORK    :
+ 166:../LIB_HW/Hw_DcMotor.c ****      ARG     : void
+ 167:../LIB_HW/Hw_DcMotor.c ****      RET     : void
+ 168:../LIB_HW/Hw_DcMotor.c **** ---------------------------------------------------------------------------*/
+ 169:../LIB_HW/Hw_DcMotor.c **** void Hw_DcMotor_Run( u8 Ch, u8 Dir )
+ 170:../LIB_HW/Hw_DcMotor.c **** {
+  27              		.loc 1 170 0
   28              		.cfi_startproc
   29              		@ args = 0, pretend = 0, frame = 0
   30              		@ frame_needed = 0, uses_anonymous_args = 0
-  31              	.LVL0:
-  51:../LIB_AP/Ap_EduMenu.c **** 	if( Event == HW_KEYPAD_EVENT_RELEASED || Event == HW_KEYPAD_EVENT_REPEAT )
-  32              		.loc 1 51 0
-  33 0000 0138     		subs	r0, r0, #1
-  34              	.LVL1:
-  35 0002 0128     		cmp	r0, #1
-  50:../LIB_AP/Ap_EduMenu.c **** {
-  36              		.loc 1 50 0
-  37 0004 10B5     		push	{r4, lr}
-  38              	.LCFI0:
-  39              		.cfi_def_cfa_offset 8
-  40              		.cfi_offset 4, -8
-  41              		.cfi_offset 14, -4
-  42              		.loc 1 51 0
-  43 0006 00D9     		bls	.L4
-  44 0008 10BD     		pop	{r4, pc}
-  45              	.L4:
-  46              	.LBB4:
-  47              	.LBB5:
-  52:../LIB_AP/Ap_EduMenu.c **** 	{
-  53:../LIB_AP/Ap_EduMenu.c **** 		Seg_Count -= 2;
-  48              		.loc 1 53 0
-  49 000a 054B     		ldr	r3, .L5
-  54:../LIB_AP/Ap_EduMenu.c **** 		
-  55:../LIB_AP/Ap_EduMenu.c **** 		
-  56:../LIB_AP/Ap_EduMenu.c **** 		Hw_7Seg_Print( 0, "%d", Seg_Count++ );
-  50              		.loc 1 56 0
-  51 000c 0020     		movs	r0, #0
-  52              	.LVL2:
-  53:../LIB_AP/Ap_EduMenu.c **** 		Seg_Count -= 2;
-  53              		.loc 1 53 0
-  54 000e 1C88     		ldrh	r4, [r3, #0]
-  55              		.loc 1 56 0
-  56 0010 0449     		ldr	r1, .L5+4
-  53:../LIB_AP/Ap_EduMenu.c **** 		Seg_Count -= 2;
-  57              		.loc 1 53 0
-  58 0012 A21E     		subs	r2, r4, #2
-  59              		.loc 1 56 0
-  60 0014 013C     		subs	r4, r4, #1
-  61 0016 1C80     		strh	r4, [r3, #0]	@ movhi
-  62 0018 92B2     		uxth	r2, r2
-  63 001a 034B     		ldr	r3, .L5+8
-  64 001c 9847     		blx	r3
-  65              	.LVL3:
-  66 001e 10BD     		pop	{r4, pc}
-  67              	.L6:
-  68              		.align	2
-  69              	.L5:
-  70 0020 00000000 		.word	.LANCHOR0
-  71 0024 00000000 		.word	.LC0
-  72 0028 00000000 		.word	Hw_7Seg_Print
-  73              	.LBE5:
-  74              	.LBE4:
-  75              		.cfi_endproc
-  76              	.LFE1:
-  78              		.section	.text.KeyPad_UpKeyEvent,"ax",%progbits
-  79              		.align	2
-  80              		.global	KeyPad_UpKeyEvent
-  81              		.thumb
-  82              		.thumb_func
-  84              	KeyPad_UpKeyEvent:
-  85              	.LFB0:
-  42:../LIB_AP/Ap_EduMenu.c **** {
-  86              		.loc 1 42 0
-  87              		.cfi_startproc
-  88              		@ args = 0, pretend = 0, frame = 0
-  89              		@ frame_needed = 0, uses_anonymous_args = 0
-  90              	.LVL4:
-  43:../LIB_AP/Ap_EduMenu.c **** 	if( Event == HW_KEYPAD_EVENT_RELEASED || Event == HW_KEYPAD_EVENT_REPEAT )
-  91              		.loc 1 43 0
-  92 0000 0138     		subs	r0, r0, #1
-  93              	.LVL5:
-  94 0002 0128     		cmp	r0, #1
-  42:../LIB_AP/Ap_EduMenu.c **** {
-  95              		.loc 1 42 0
-  96 0004 10B5     		push	{r4, lr}
-  97              	.LCFI1:
-  98              		.cfi_def_cfa_offset 8
-  99              		.cfi_offset 4, -8
- 100              		.cfi_offset 14, -4
-  43:../LIB_AP/Ap_EduMenu.c **** 	if( Event == HW_KEYPAD_EVENT_RELEASED || Event == HW_KEYPAD_EVENT_REPEAT )
- 101              		.loc 1 43 0
- 102 0006 00D9     		bls	.L9
- 103 0008 10BD     		pop	{r4, pc}
- 104              	.L9:
- 105              	.LBB8:
- 106              	.LBB9:
-  45:../LIB_AP/Ap_EduMenu.c **** 		Hw_7Seg_Print( 0, "%d", Seg_Count++ );
- 107              		.loc 1 45 0
- 108 000a 044B     		ldr	r3, .L10
- 109 000c 0020     		movs	r0, #0
- 110              	.LVL6:
- 111 000e 1A88     		ldrh	r2, [r3, #0]
- 112 0010 0349     		ldr	r1, .L10+4
- 113 0012 541C     		adds	r4, r2, #1
- 114 0014 1C80     		strh	r4, [r3, #0]	@ movhi
- 115 0016 034B     		ldr	r3, .L10+8
- 116 0018 9847     		blx	r3
- 117              	.LVL7:
- 118 001a 10BD     		pop	{r4, pc}
- 119              	.L11:
- 120              		.align	2
- 121              	.L10:
- 122 001c 00000000 		.word	.LANCHOR0
- 123 0020 00000000 		.word	.LC0
- 124 0024 00000000 		.word	Hw_7Seg_Print
- 125              	.LBE9:
- 126              	.LBE8:
- 127              		.cfi_endproc
- 128              	.LFE0:
- 130              		.section	.text.Ap_EduMenu_ShowMenu,"ax",%progbits
- 131              		.align	2
- 132              		.global	Ap_EduMenu_ShowMenu
- 133              		.thumb
- 134              		.thumb_func
- 136              	Ap_EduMenu_ShowMenu:
- 137              	.LFB2:
-  57:../LIB_AP/Ap_EduMenu.c **** 	}	
-  58:../LIB_AP/Ap_EduMenu.c **** }
-  59:../LIB_AP/Ap_EduMenu.c **** 
-  60:../LIB_AP/Ap_EduMenu.c **** 
-  61:../LIB_AP/Ap_EduMenu.c **** 
-  62:../LIB_AP/Ap_EduMenu.c **** /*---------------------------------------------------------------------------
-  63:../LIB_AP/Ap_EduMenu.c ****      TITLE   : Ap_EduMenu_ShowMenu
-  64:../LIB_AP/Ap_EduMenu.c ****      WORK    : 
-  65:../LIB_AP/Ap_EduMenu.c ****      ARG     : void
-  66:../LIB_AP/Ap_EduMenu.c ****      RET     : void
-  67:../LIB_AP/Ap_EduMenu.c **** ---------------------------------------------------------------------------*/
-  68:../LIB_AP/Ap_EduMenu.c **** void Ap_EduMenu_ShowMenu(void)
-  69:../LIB_AP/Ap_EduMenu.c **** {
- 138              		.loc 1 69 0
- 139              		.cfi_startproc
- 140              		@ args = 0, pretend = 0, frame = 0
- 141              		@ frame_needed = 0, uses_anonymous_args = 0
- 142 0000 38B5     		push	{r3, r4, r5, lr}
- 143              	.LCFI2:
- 144              		.cfi_def_cfa_offset 16
- 145              		.cfi_offset 3, -16
- 146              		.cfi_offset 4, -12
- 147              		.cfi_offset 5, -8
- 148              		.cfi_offset 14, -4
-  70:../LIB_AP/Ap_EduMenu.c **** 	u8 key;
-  71:../LIB_AP/Ap_EduMenu.c **** 
-  72:../LIB_AP/Ap_EduMenu.c **** 	Lb_printf("\n\n");
- 149              		.loc 1 72 0
- 150 0002 40F20000 		movw	r0, #:lower16:.LC1
- 151 0006 40F20004 		movw	r4, #:lower16:Lb_printf
-  73:../LIB_AP/Ap_EduMenu.c **** 	Lb_printf("*******************************************************\n");
- 152              		.loc 1 73 0
- 153 000a 40F20005 		movw	r5, #:lower16:.LC2
-  72:../LIB_AP/Ap_EduMenu.c **** 	Lb_printf("\n\n");
- 154              		.loc 1 72 0
- 155 000e C0F20004 		movt	r4, #:upper16:Lb_printf
- 156              		.loc 1 73 0
- 157 0012 C0F20005 		movt	r5, #:upper16:.LC2
-  72:../LIB_AP/Ap_EduMenu.c **** 	Lb_printf("\n\n");
- 158              		.loc 1 72 0
- 159 0016 C0F20000 		movt	r0, #:upper16:.LC1
- 160 001a A047     		blx	r4
- 161              	.LVL8:
- 162              		.loc 1 73 0
- 163 001c 2846     		mov	r0, r5
- 164 001e A047     		blx	r4
- 165              	.LVL9:
-  74:../LIB_AP/Ap_EduMenu.c **** 	Lb_printf("                      Edu V0.5                         \n");
- 166              		.loc 1 74 0
- 167 0020 40F20000 		movw	r0, #:lower16:.LC3
- 168 0024 C0F20000 		movt	r0, #:upper16:.LC3
- 169 0028 A047     		blx	r4
- 170              	.LVL10:
-  75:../LIB_AP/Ap_EduMenu.c **** 	Lb_printf("*******************************************************\n");
- 171              		.loc 1 75 0
- 172 002a 2846     		mov	r0, r5
- 173 002c A047     		blx	r4
- 174              	.LVL11:
-  76:../LIB_AP/Ap_EduMenu.c **** 	Lb_printf("* 1. Test.. LED                                       *\n");
- 175              		.loc 1 76 0
- 176 002e 40F20000 		movw	r0, #:lower16:.LC4
- 177 0032 C0F20000 		movt	r0, #:upper16:.LC4
- 178 0036 A047     		blx	r4
- 179              	.LVL12:
-  77:../LIB_AP/Ap_EduMenu.c **** 	Lb_printf("* 2. Test.. KeyPad                                    *\n");
- 180              		.loc 1 77 0
- 181 0038 40F20000 		movw	r0, #:lower16:.LC5
- 182 003c C0F20000 		movt	r0, #:upper16:.LC5
- 183 0040 A047     		blx	r4
- 184              	.LVL13:
-  78:../LIB_AP/Ap_EduMenu.c **** 	Lb_printf("* 3. Test.. 7Seg                                      *\n");
- 185              		.loc 1 78 0
- 186 0042 40F20000 		movw	r0, #:lower16:.LC6
- 187 0046 C0F20000 		movt	r0, #:upper16:.LC6
- 188 004a A047     		blx	r4
- 189              	.LVL14:
-  79:../LIB_AP/Ap_EduMenu.c **** 	Lb_printf("* 4. Test.. CLcd                                      *\n");
- 190              		.loc 1 79 0
- 191 004c 40F20000 		movw	r0, #:lower16:.LC7
- 192 0050 C0F20000 		movt	r0, #:upper16:.LC7
- 193 0054 A047     		blx	r4
- 194              	.LVL15:
-  80:../LIB_AP/Ap_EduMenu.c **** 	Lb_printf("* 5. Test.. BT                                        *\n");
- 195              		.loc 1 80 0
- 196 0056 40F20000 		movw	r0, #:lower16:.LC8
- 197 005a C0F20000 		movt	r0, #:upper16:.LC8
- 198 005e A047     		blx	r4
- 199              	.LVL16:
-  81:../LIB_AP/Ap_EduMenu.c **** 	Lb_printf("* 6. Test.. Temperature                               *\n");
- 200              		.loc 1 81 0
- 201 0060 40F20000 		movw	r0, #:lower16:.LC9
- 202 0064 C0F20000 		movt	r0, #:upper16:.LC9
- 203 0068 A047     		blx	r4
- 204              	.LVL17:
-  82:../LIB_AP/Ap_EduMenu.c **** 	Lb_printf("* 7.                                                  *\n");
- 205              		.loc 1 82 0
- 206 006a 40F20000 		movw	r0, #:lower16:.LC10
- 207 006e C0F20000 		movt	r0, #:upper16:.LC10
- 208 0072 A047     		blx	r4
- 209              	.LVL18:
-  83:../LIB_AP/Ap_EduMenu.c **** 	Lb_printf("* 8.                                                  *\n");
- 210              		.loc 1 83 0
- 211 0074 40F20000 		movw	r0, #:lower16:.LC11
- 212 0078 C0F20000 		movt	r0, #:upper16:.LC11
- 213 007c A047     		blx	r4
- 214              	.LVL19:
-  84:../LIB_AP/Ap_EduMenu.c **** 	Lb_printf("* 9.                                                  *\n");
- 215              		.loc 1 84 0
- 216 007e 40F20000 		movw	r0, #:lower16:.LC12
- 217 0082 C0F20000 		movt	r0, #:upper16:.LC12
- 218 0086 A047     		blx	r4
- 219              	.LVL20:
-  85:../LIB_AP/Ap_EduMenu.c **** 	Lb_printf("* m.  Menu                                            *\n");
- 220              		.loc 1 85 0
- 221 0088 40F20000 		movw	r0, #:lower16:.LC13
- 222 008c C0F20000 		movt	r0, #:upper16:.LC13
- 223 0090 A047     		blx	r4
- 224              	.LVL21:
-  86:../LIB_AP/Ap_EduMenu.c **** 	Lb_printf("*******************************************************\n");
- 225              		.loc 1 86 0
- 226 0092 2846     		mov	r0, r5
- 227 0094 A047     		blx	r4
- 228              	.LVL22:
-  87:../LIB_AP/Ap_EduMenu.c **** 	Lb_printf("\n");
- 229              		.loc 1 87 0
- 230 0096 40F20000 		movw	r0, #:lower16:.LC14
- 231 009a C0F20000 		movt	r0, #:upper16:.LC14
- 232 009e A047     		blx	r4
- 233              	.LVL23:
- 234 00a0 38BD     		pop	{r3, r4, r5, pc}
- 235              		.cfi_endproc
- 236              	.LFE2:
- 238 00a2 00BF     		.section	.text.Ap_EduMenu_GetCmd,"ax",%progbits
- 239              		.align	2
- 240              		.global	Ap_EduMenu_GetCmd
- 241              		.thumb
- 242              		.thumb_func
- 244              	Ap_EduMenu_GetCmd:
- 245              	.LFB3:
-  88:../LIB_AP/Ap_EduMenu.c **** }
-  89:../LIB_AP/Ap_EduMenu.c **** 
-  90:../LIB_AP/Ap_EduMenu.c **** 
-  91:../LIB_AP/Ap_EduMenu.c **** 
-  92:../LIB_AP/Ap_EduMenu.c **** 
-  93:../LIB_AP/Ap_EduMenu.c **** 
-  94:../LIB_AP/Ap_EduMenu.c **** /*---------------------------------------------------------------------------
-  95:../LIB_AP/Ap_EduMenu.c ****      TITLE   : Ap_EduMenu_GetCmd
-  96:../LIB_AP/Ap_EduMenu.c ****      WORK    : 
-  97:../LIB_AP/Ap_EduMenu.c ****      ARG     : void
-  98:../LIB_AP/Ap_EduMenu.c ****      RET     : 
-  99:../LIB_AP/Ap_EduMenu.c **** 				u8 : 눌려진 메뉴키 데이터 
- 100:../LIB_AP/Ap_EduMenu.c **** ---------------------------------------------------------------------------*/
- 101:../LIB_AP/Ap_EduMenu.c **** u8 Ap_EduMenu_GetCmd(void)
- 102:../LIB_AP/Ap_EduMenu.c **** {
- 246              		.loc 1 102 0
- 247              		.cfi_startproc
- 248              		@ args = 0, pretend = 0, frame = 0
- 249              		@ frame_needed = 0, uses_anonymous_args = 0
- 250 0000 38B5     		push	{r3, r4, r5, lr}
- 251              	.LCFI3:
- 252              		.cfi_def_cfa_offset 16
- 253              		.cfi_offset 3, -16
- 254              		.cfi_offset 4, -12
- 255              		.cfi_offset 5, -8
- 256              		.cfi_offset 14, -4
- 103:../LIB_AP/Ap_EduMenu.c **** 	u8  key;
- 104:../LIB_AP/Ap_EduMenu.c **** 	
- 105:../LIB_AP/Ap_EduMenu.c **** 
- 106:../LIB_AP/Ap_EduMenu.c **** 	Lb_printf(">> ");
- 257              		.loc 1 106 0
- 258 0002 40F20000 		movw	r0, #:lower16:.LC15
- 259 0006 40F20004 		movw	r4, #:lower16:Lb_printf
- 260 000a C0F20004 		movt	r4, #:upper16:Lb_printf
- 261 000e C0F20000 		movt	r0, #:upper16:.LC15
- 262 0012 A047     		blx	r4
- 263              	.LVL24:
- 107:../LIB_AP/Ap_EduMenu.c **** 
- 108:../LIB_AP/Ap_EduMenu.c ****     key=get_byte();
- 264              		.loc 1 108 0
- 265 0014 40F20003 		movw	r3, #:lower16:get_byte
- 266 0018 C0F20003 		movt	r3, #:upper16:get_byte
- 267 001c 9847     		blx	r3
- 268              	.LVL25:
- 269 001e 0546     		mov	r5, r0
- 270              	.LVL26:
- 109:../LIB_AP/Ap_EduMenu.c **** 	
- 110:../LIB_AP/Ap_EduMenu.c **** 	Lb_printf("\n");
- 271              		.loc 1 110 0
- 272 0020 40F20000 		movw	r0, #:lower16:.LC14
- 273              	.LVL27:
- 274 0024 C0F20000 		movt	r0, #:upper16:.LC14
- 275 0028 A047     		blx	r4
- 276              	.LVL28:
- 111:../LIB_AP/Ap_EduMenu.c **** 	
- 112:../LIB_AP/Ap_EduMenu.c ****     return key;
- 113:../LIB_AP/Ap_EduMenu.c **** }
- 277              		.loc 1 113 0
- 278 002a 2846     		mov	r0, r5
- 279 002c 38BD     		pop	{r3, r4, r5, pc}
- 280              		.cfi_endproc
- 281              	.LFE3:
- 283 002e 00BF     		.section	.text.Ap_EduMenu_ExeCmd,"ax",%progbits
- 284              		.align	2
- 285              		.global	Ap_EduMenu_ExeCmd
- 286              		.thumb
- 287              		.thumb_func
- 289              	Ap_EduMenu_ExeCmd:
- 290              	.LFB4:
- 114:../LIB_AP/Ap_EduMenu.c **** 
- 115:../LIB_AP/Ap_EduMenu.c **** 
- 116:../LIB_AP/Ap_EduMenu.c **** 
- 117:../LIB_AP/Ap_EduMenu.c **** 
- 118:../LIB_AP/Ap_EduMenu.c **** /*---------------------------------------------------------------------------
- 119:../LIB_AP/Ap_EduMenu.c ****      TITLE   : Ap_EduMenu_ExeCmd
- 120:../LIB_AP/Ap_EduMenu.c ****      WORK    : 
- 121:../LIB_AP/Ap_EduMenu.c ****      ARG     : void
- 122:../LIB_AP/Ap_EduMenu.c ****      RET     : 
- 123:../LIB_AP/Ap_EduMenu.c **** 				u8 : 눌려진 메뉴키 데이터 
- 124:../LIB_AP/Ap_EduMenu.c **** ---------------------------------------------------------------------------*/
- 125:../LIB_AP/Ap_EduMenu.c **** u8 Ap_EduMenu_ExeCmd(void)
- 126:../LIB_AP/Ap_EduMenu.c **** {
- 291              		.loc 1 126 0
- 292              		.cfi_startproc
- 293              		@ args = 0, pretend = 0, frame = 16
- 294              		@ frame_needed = 0, uses_anonymous_args = 0
- 295              	.LVL29:
- 296 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, sl, fp, lr}
- 297              	.LCFI4:
- 298              		.cfi_def_cfa_offset 36
- 299              		.cfi_offset 4, -36
- 300              		.cfi_offset 5, -32
- 301              		.cfi_offset 6, -28
- 302              		.cfi_offset 7, -24
- 303              		.cfi_offset 8, -20
- 304              		.cfi_offset 9, -16
- 305              		.cfi_offset 10, -12
- 306              		.cfi_offset 11, -8
- 307              		.cfi_offset 14, -4
- 127:../LIB_AP/Ap_EduMenu.c **** 	u8  key;
- 128:../LIB_AP/Ap_EduMenu.c **** 	u8  UartData;
- 129:../LIB_AP/Ap_EduMenu.c **** 	u8  i;
- 130:../LIB_AP/Ap_EduMenu.c **** 	u32 KeyPressedCnt;
- 131:../LIB_AP/Ap_EduMenu.c **** 	u32 KeyEvent;
- 132:../LIB_AP/Ap_EduMenu.c **** 	u32 KeyNum;
- 133:../LIB_AP/Ap_EduMenu.c **** 	u16 SegCnt = 0;
- 134:../LIB_AP/Ap_EduMenu.c **** 	s16 Temp = 0;
- 135:../LIB_AP/Ap_EduMenu.c **** 	
- 136:../LIB_AP/Ap_EduMenu.c **** 	static u8 ExeFirst = TRUE;
- 137:../LIB_AP/Ap_EduMenu.c **** 	u16 Ret = ERR_NONE;
- 138:../LIB_AP/Ap_EduMenu.c **** 			
- 139:../LIB_AP/Ap_EduMenu.c **** 	
- 140:../LIB_AP/Ap_EduMenu.c **** 	if( ExeFirst == TRUE )
- 141:../LIB_AP/Ap_EduMenu.c **** 	{
- 142:../LIB_AP/Ap_EduMenu.c **** 		Ap_EduMenu_ShowMenu();		
- 308              		.loc 1 142 0
- 309 0004 40F20003 		movw	r3, #:lower16:Ap_EduMenu_ShowMenu
- 126:../LIB_AP/Ap_EduMenu.c **** {
- 310              		.loc 1 126 0
- 311 0008 85B0     		sub	sp, sp, #20
- 312              	.LCFI5:
- 313              		.cfi_def_cfa_offset 56
- 314              		.loc 1 142 0
- 315 000a C0F20003 		movt	r3, #:upper16:Ap_EduMenu_ShowMenu
- 316 000e 9847     		blx	r3
- 317              	.LVL30:
- 143:../LIB_AP/Ap_EduMenu.c **** 		
- 144:../LIB_AP/Ap_EduMenu.c **** 		Hw_KeyPad_SetEventFunc( 2, KeyPad_UpKeyEvent );
- 318              		.loc 1 144 0
- 319 0010 A34C     		ldr	r4, .L50
- 320 0012 0220     		movs	r0, #2
- 321 0014 A349     		ldr	r1, .L50+4
- 322 0016 A047     		blx	r4
- 323              	.LVL31:
- 145:../LIB_AP/Ap_EduMenu.c **** 		Hw_KeyPad_SetEventFunc( 0, KeyPad_DownKeyEvent );	
- 146:../LIB_AP/Ap_EduMenu.c **** 	}
- 147:../LIB_AP/Ap_EduMenu.c **** 
- 148:../LIB_AP/Ap_EduMenu.c ****     while( (key = Ap_EduMenu_GetCmd()) != 0 )
- 149:../LIB_AP/Ap_EduMenu.c ****     {
- 150:../LIB_AP/Ap_EduMenu.c ****         switch(key)
- 151:../LIB_AP/Ap_EduMenu.c ****         {
- 152:../LIB_AP/Ap_EduMenu.c ****            case '1':
- 153:../LIB_AP/Ap_EduMenu.c ****            		Hw_Led_Toggle( 0 );
- 154:../LIB_AP/Ap_EduMenu.c ****            		Hw_Timer_Delay_ms(500);
- 155:../LIB_AP/Ap_EduMenu.c ****            		Hw_Led_Toggle( 1 );
- 156:../LIB_AP/Ap_EduMenu.c ****            		Hw_Timer_Delay_ms(500);
- 157:../LIB_AP/Ap_EduMenu.c ****            		Hw_Led_Toggle( 2 );;
- 158:../LIB_AP/Ap_EduMenu.c ****            		Hw_Timer_Delay_ms(500);
- 159:../LIB_AP/Ap_EduMenu.c ****            		Hw_Led_Toggle( 3 );
- 160:../LIB_AP/Ap_EduMenu.c ****            		Hw_Timer_Delay_ms(500);
- 161:../LIB_AP/Ap_EduMenu.c ****                	break;
- 162:../LIB_AP/Ap_EduMenu.c **** 
- 163:../LIB_AP/Ap_EduMenu.c ****            case '2':
- 164:../LIB_AP/Ap_EduMenu.c ****            		Lb_printf("KeyPad Start : press two keys to exit\n");
- 165:../LIB_AP/Ap_EduMenu.c ****            		while(1)
- 166:../LIB_AP/Ap_EduMenu.c ****            		{
- 167:../LIB_AP/Ap_EduMenu.c ****            			KeyEvent = Hw_KeyPad_WaitForEvent(1000);
- 168:../LIB_AP/Ap_EduMenu.c ****            			 
- 169:../LIB_AP/Ap_EduMenu.c ****            			if( IS_SET_BIT( KeyEvent, HW_KEYPAD_EVENT_PRESSED) )
- 170:../LIB_AP/Ap_EduMenu.c ****            			{ 
- 171:../LIB_AP/Ap_EduMenu.c ****            				Lb_printf("%x KeyPressed\n", Hw_KeyPad_GetEventKeyData(HW_KEYPAD_EVENT_PRESSED) );  
- 172:../LIB_AP/Ap_EduMenu.c **** 					}										
- 173:../LIB_AP/Ap_EduMenu.c **** 					else
- 174:../LIB_AP/Ap_EduMenu.c **** 					if( IS_SET_BIT( KeyEvent, HW_KEYPAD_EVENT_RELEASED) )
- 175:../LIB_AP/Ap_EduMenu.c **** 					{
- 176:../LIB_AP/Ap_EduMenu.c **** 						Lb_printf("%x KeyReleased\n", Hw_KeyPad_GetEventKeyData(HW_KEYPAD_EVENT_RELEASED) );         
- 177:../LIB_AP/Ap_EduMenu.c **** 					}
- 178:../LIB_AP/Ap_EduMenu.c **** 					else
- 179:../LIB_AP/Ap_EduMenu.c **** 					if( IS_SET_BIT( KeyEvent, HW_KEYPAD_EVENT_REPEAT) )
- 180:../LIB_AP/Ap_EduMenu.c **** 					{
- 181:../LIB_AP/Ap_EduMenu.c **** 						KeyNum = Hw_KeyPad_GetEventKeyNum(HW_KEYPAD_EVENT_REPEAT);
- 182:../LIB_AP/Ap_EduMenu.c **** 						
- 183:../LIB_AP/Ap_EduMenu.c **** 						Lb_printf("%x KeyRepeat Cnt : %d\n",Hw_KeyPad_GetEventKeyData(HW_KEYPAD_EVENT_REPEAT), Hw_Key
- 184:../LIB_AP/Ap_EduMenu.c **** 					}
- 185:../LIB_AP/Ap_EduMenu.c **** 					
- 186:../LIB_AP/Ap_EduMenu.c **** 					KeyPressedCnt = Hw_KeyPad_GetPressedCnt();
- 187:../LIB_AP/Ap_EduMenu.c **** 						
- 188:../LIB_AP/Ap_EduMenu.c **** 					if( KeyPressedCnt >= 2 )
- 189:../LIB_AP/Ap_EduMenu.c **** 					{
- 190:../LIB_AP/Ap_EduMenu.c **** 						Lb_printf("Key Exit\n");
- 191:../LIB_AP/Ap_EduMenu.c **** 						break;
- 192:../LIB_AP/Ap_EduMenu.c **** 					}	
- 193:../LIB_AP/Ap_EduMenu.c **** 				}
- 194:../LIB_AP/Ap_EduMenu.c **** 				break;
- 195:../LIB_AP/Ap_EduMenu.c **** 
- 196:../LIB_AP/Ap_EduMenu.c ****            case '3':	
- 197:../LIB_AP/Ap_EduMenu.c ****            		Hw_7Seg_Print( 0, "%d", Seg_Count++ );
- 198:../LIB_AP/Ap_EduMenu.c ****                break; 
- 199:../LIB_AP/Ap_EduMenu.c **** 
- 200:../LIB_AP/Ap_EduMenu.c ****            case '4':
- 201:../LIB_AP/Ap_EduMenu.c ****            		Hw_CLcd_Print( 0, 1, "Cnt : %d", Seg_Count++);
- 202:../LIB_AP/Ap_EduMenu.c **** 				break;  
- 203:../LIB_AP/Ap_EduMenu.c **** 
- 204:../LIB_AP/Ap_EduMenu.c ****            case '5':
- 205:../LIB_AP/Ap_EduMenu.c ****            		Lb_printf("BT Test Start, press x to exit\n");
- 206:../LIB_AP/Ap_EduMenu.c **** 
- 207:../LIB_AP/Ap_EduMenu.c ****            		while(1)
- 208:../LIB_AP/Ap_EduMenu.c ****            		{
- 209:../LIB_AP/Ap_EduMenu.c ****            			if( Hw_Uart_GetchNoWait( HW_USE_UART_CH_BT, &UartData) == TRUE )
- 210:../LIB_AP/Ap_EduMenu.c ****            			{
- 211:../LIB_AP/Ap_EduMenu.c ****            				Lb_printf( "BT Rxd : %c \n", UartData );
- 212:../LIB_AP/Ap_EduMenu.c ****            			}
- 213:../LIB_AP/Ap_EduMenu.c **** 
- 214:../LIB_AP/Ap_EduMenu.c ****            			if( Hw_Uart_GetchNoWait( HW_USE_UART_CH_MENU, &UartData ) == TRUE )
- 215:../LIB_AP/Ap_EduMenu.c ****            			{
- 216:../LIB_AP/Ap_EduMenu.c ****            				if( UartData == 'x' )
- 217:../LIB_AP/Ap_EduMenu.c ****            				{
- 218:../LIB_AP/Ap_EduMenu.c ****            					break;
- 219:../LIB_AP/Ap_EduMenu.c ****            				}
- 220:../LIB_AP/Ap_EduMenu.c ****            				else
- 221:../LIB_AP/Ap_EduMenu.c ****            				{
- 222:../LIB_AP/Ap_EduMenu.c ****            					Hw_Uart_Print( HW_USE_UART_CH_BT, "Menu:Send : %c\r\n",UartData );
- 223:../LIB_AP/Ap_EduMenu.c ****            				}
- 224:../LIB_AP/Ap_EduMenu.c ****            			}
- 225:../LIB_AP/Ap_EduMenu.c **** 
- 226:../LIB_AP/Ap_EduMenu.c **** 				}
- 227:../LIB_AP/Ap_EduMenu.c **** 				
- 228:../LIB_AP/Ap_EduMenu.c **** 				Lb_printf("BT Test Exit\n");
- 229:../LIB_AP/Ap_EduMenu.c **** 				break; 
- 230:../LIB_AP/Ap_EduMenu.c **** 
- 231:../LIB_AP/Ap_EduMenu.c ****            case '6':
- 232:../LIB_AP/Ap_EduMenu.c ****            		Lb_printf("ADC 15 : %d\n", Hw_Adc_GetData(16));
- 233:../LIB_AP/Ap_EduMenu.c ****            		Lb_printf("ADC 16 : %d\n", Hw_Adc_GetData(17)*330/4095);
- 324              		.loc 1 233 0
- 325 0018 8123     		movs	r3, #129
- 145:../LIB_AP/Ap_EduMenu.c **** 		Hw_KeyPad_SetEventFunc( 0, KeyPad_DownKeyEvent );	
- 326              		.loc 1 145 0
- 327 001a 0020     		movs	r0, #0
- 328 001c A249     		ldr	r1, .L50+8
- 329              		.loc 1 233 0
- 330 001e 0193     		str	r3, [sp, #4]
- 145:../LIB_AP/Ap_EduMenu.c **** 		Hw_KeyPad_SetEventFunc( 0, KeyPad_DownKeyEvent );	
- 331              		.loc 1 145 0
- 332 0020 A047     		blx	r4
- 333              	.LVL32:
- 334              		.loc 1 233 0
- 335 0022 019B     		ldr	r3, [sp, #4]
- 336 0024 A14F     		ldr	r7, .L50+12
- 337 0026 C8F20803 		movt	r3, 32776
- 232:../LIB_AP/Ap_EduMenu.c ****            		Lb_printf("ADC 15 : %d\n", Hw_Adc_GetData(16));
- 338              		.loc 1 232 0
- 339 002a A14C     		ldr	r4, .L50+16
- 340              		.loc 1 233 0
- 341 002c 0193     		str	r3, [sp, #4]
- 342              	.LVL33:
- 343              	.L43:
- 148:../LIB_AP/Ap_EduMenu.c ****     while( (key = Ap_EduMenu_GetCmd()) != 0 )
- 344              		.loc 1 148 0 discriminator 1
- 345 002e B847     		blx	r7
- 346              	.LVL34:
- 347 0030 0346     		mov	r3, r0
- 348 0032 0028     		cmp	r0, #0
- 349 0034 00F0A380 		beq	.L45
- 350              	.L34:
- 150:../LIB_AP/Ap_EduMenu.c ****         switch(key)
- 351              		.loc 1 150 0
- 352 0038 A3F13100 		sub	r0, r3, #49
- 353              	.LVL35:
- 354 003c 3C28     		cmp	r0, #60
- 355 003e F6D8     		bhi	.L43
- 356 0040 01A3     		adr	r3, .L24
- 357 0042 53F820F0 		ldr	pc, [r3, r0, lsl #2]
- 358 0046 00BF     		.align	2
- 359              	.L24:
- 360 0048 2F020000 		.word	.L17+1
- 361 004c EF010000 		.word	.L18+1
- 362 0050 DD010000 		.word	.L19+1
- 363 0054 C9010000 		.word	.L20+1
- 364 0058 85010000 		.word	.L21+1
- 365 005c 3D010000 		.word	.L22+1
- 366 0060 2F000000 		.word	.L43+1
- 367 0064 2F000000 		.word	.L43+1
- 368 0068 2F000000 		.word	.L43+1
- 369 006c 2F000000 		.word	.L43+1
- 370 0070 2F000000 		.word	.L43+1
- 371 0074 2F000000 		.word	.L43+1
- 372 0078 2F000000 		.word	.L43+1
- 373 007c 2F000000 		.word	.L43+1
- 374 0080 2F000000 		.word	.L43+1
- 375 0084 2F000000 		.word	.L43+1
- 376 0088 2F000000 		.word	.L43+1
- 377 008c 2F000000 		.word	.L43+1
- 378 0090 2F000000 		.word	.L43+1
- 379 0094 2F000000 		.word	.L43+1
- 380 0098 2F000000 		.word	.L43+1
- 381 009c 2F000000 		.word	.L43+1
- 382 00a0 2F000000 		.word	.L43+1
- 383 00a4 2F000000 		.word	.L43+1
- 384 00a8 2F000000 		.word	.L43+1
- 385 00ac 2F000000 		.word	.L43+1
- 386 00b0 2F000000 		.word	.L43+1
- 387 00b4 2F000000 		.word	.L43+1
- 388 00b8 5D020000 		.word	.L23+1
- 389 00bc 2F000000 		.word	.L43+1
- 390 00c0 2F000000 		.word	.L43+1
- 391 00c4 2F000000 		.word	.L43+1
- 392 00c8 2F000000 		.word	.L43+1
- 393 00cc 2F000000 		.word	.L43+1
- 394 00d0 2F000000 		.word	.L43+1
- 395 00d4 2F000000 		.word	.L43+1
- 396 00d8 2F000000 		.word	.L43+1
- 397 00dc 2F000000 		.word	.L43+1
- 398 00e0 2F000000 		.word	.L43+1
- 399 00e4 2F000000 		.word	.L43+1
- 400 00e8 2F000000 		.word	.L43+1
- 401 00ec 2F000000 		.word	.L43+1
- 402 00f0 2F000000 		.word	.L43+1
- 403 00f4 2F000000 		.word	.L43+1
- 404 00f8 2F000000 		.word	.L43+1
- 405 00fc 2F000000 		.word	.L43+1
- 406 0100 2F000000 		.word	.L43+1
- 407 0104 2F000000 		.word	.L43+1
- 408 0108 2F000000 		.word	.L43+1
- 409 010c 2F000000 		.word	.L43+1
- 410 0110 2F000000 		.word	.L43+1
- 411 0114 2F000000 		.word	.L43+1
- 412 0118 2F000000 		.word	.L43+1
- 413 011c 2F000000 		.word	.L43+1
- 414 0120 2F000000 		.word	.L43+1
- 415 0124 2F000000 		.word	.L43+1
- 416 0128 2F000000 		.word	.L43+1
- 417 012c 2F000000 		.word	.L43+1
- 418 0130 2F000000 		.word	.L43+1
- 419 0134 2F000000 		.word	.L43+1
- 420 0138 5D020000 		.word	.L23+1
- 421              	.L22:
- 232:../LIB_AP/Ap_EduMenu.c ****            		Lb_printf("ADC 15 : %d\n", Hw_Adc_GetData(16));
- 422              		.loc 1 232 0
- 423 013c 40F20003 		movw	r3, #:lower16:Hw_Adc_GetData
- 424 0140 C0F20003 		movt	r3, #:upper16:Hw_Adc_GetData
- 425 0144 1020     		movs	r0, #16
- 426 0146 9847     		blx	r3
- 427              	.LVL36:
- 428 0148 0146     		mov	r1, r0
- 429 014a 5A48     		ldr	r0, .L50+20
- 430 014c A047     		blx	r4
- 431              	.LVL37:
- 432              		.loc 1 233 0
- 433 014e 40F20003 		movw	r3, #:lower16:Hw_Adc_GetData
- 434 0152 C0F20003 		movt	r3, #:upper16:Hw_Adc_GetData
- 435 0156 1120     		movs	r0, #17
- 436 0158 9847     		blx	r3
- 437              	.LVL38:
- 438 015a 4FF4A573 		mov	r3, #330
- 439 015e 03FB00F0 		mul	r0, r3, r0
- 440 0162 019B     		ldr	r3, [sp, #4]
- 441 0164 83FB0031 		smull	r3, r1, r3, r0
- 442 0168 C317     		asrs	r3, r0, #31
- 443 016a 0918     		adds	r1, r1, r0
- 444 016c C3EBE121 		rsb	r1, r3, r1, asr #11
- 445 0170 5148     		ldr	r0, .L50+24
- 446 0172 A047     		blx	r4
- 447              	.LVL39:
- 148:../LIB_AP/Ap_EduMenu.c ****     while( (key = Ap_EduMenu_GetCmd()) != 0 )
- 448              		.loc 1 148 0
- 449 0174 B847     		blx	r7
- 450              	.LVL40:
- 451 0176 0346     		mov	r3, r0
- 452 0178 0028     		cmp	r0, #0
- 453 017a 7FF45DAF 		bne	.L34
- 454              	.L45:
- 234:../LIB_AP/Ap_EduMenu.c ****                break;  
- 235:../LIB_AP/Ap_EduMenu.c **** 
- 236:../LIB_AP/Ap_EduMenu.c ****            case '7':
- 237:../LIB_AP/Ap_EduMenu.c ****                break;  
- 238:../LIB_AP/Ap_EduMenu.c **** 
- 239:../LIB_AP/Ap_EduMenu.c ****            case '8':           		
- 240:../LIB_AP/Ap_EduMenu.c ****                break;
- 241:../LIB_AP/Ap_EduMenu.c **** 
- 242:../LIB_AP/Ap_EduMenu.c ****            case '9': 
- 243:../LIB_AP/Ap_EduMenu.c ****                break;
- 244:../LIB_AP/Ap_EduMenu.c **** 
- 245:../LIB_AP/Ap_EduMenu.c ****            case '0':
- 246:../LIB_AP/Ap_EduMenu.c ****                break;
- 247:../LIB_AP/Ap_EduMenu.c **** 
- 248:../LIB_AP/Ap_EduMenu.c **** 			case 'm':
- 249:../LIB_AP/Ap_EduMenu.c **** 			case 'M':
- 250:../LIB_AP/Ap_EduMenu.c **** 				Ap_EduMenu_ShowMenu();
- 251:../LIB_AP/Ap_EduMenu.c **** 				break;
- 252:../LIB_AP/Ap_EduMenu.c **** 				
- 253:../LIB_AP/Ap_EduMenu.c ****            default :
- 254:../LIB_AP/Ap_EduMenu.c ****                break;
- 255:../LIB_AP/Ap_EduMenu.c ****         }
- 256:../LIB_AP/Ap_EduMenu.c ****     }
- 257:../LIB_AP/Ap_EduMenu.c ****     
- 258:../LIB_AP/Ap_EduMenu.c ****     return Ret;
- 259:../LIB_AP/Ap_EduMenu.c **** }
- 455              		.loc 1 259 0
- 456 017e 05B0     		add	sp, sp, #20
- 457 0180 BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, sl, fp, pc}
- 458              	.LVL41:
- 459              	.L21:
- 205:../LIB_AP/Ap_EduMenu.c ****            		Lb_printf("BT Test Start, press x to exit\n");
- 460              		.loc 1 205 0
- 461 0184 4D48     		ldr	r0, .L50+28
- 462 0186 A047     		blx	r4
- 463              	.LVL42:
- 464 0188 4D4D     		ldr	r5, .L50+32
- 222:../LIB_AP/Ap_EduMenu.c ****            					Hw_Uart_Print( HW_USE_UART_CH_BT, "Menu:Send : %c\r\n",UartData );
- 465              		.loc 1 222 0
- 466 018a 4E4E     		ldr	r6, .L50+36
- 467 018c 05E0     		b	.L44
+  31              		@ link register save eliminated.
+  32              	.LVL0:
+ 171:../LIB_HW/Hw_DcMotor.c **** 	switch( Ch )
+  33              		.loc 1 171 0
+  34 0000 0328     		cmp	r0, #3
+  35 0002 11D8     		bhi	.L1
+  36 0004 DFE800F0 		tbb	[pc, r0]
+  37              	.L7:
+  38 0008 2E       		.byte	(.L3-.L7)/2
+  39 0009 20       		.byte	(.L4-.L7)/2
+  40 000a 11       		.byte	(.L5-.L7)/2
+  41 000b 02       		.byte	(.L6-.L7)/2
+  42              		.align	1
+  43              	.L6:
+ 172:../LIB_HW/Hw_DcMotor.c **** 	{
+ 173:../LIB_HW/Hw_DcMotor.c **** 		case 0:
+ 174:../LIB_HW/Hw_DcMotor.c **** 			if( Dir == HW_DCMOTOR_FOR )
+ 175:../LIB_HW/Hw_DcMotor.c **** 			{
+ 176:../LIB_HW/Hw_DcMotor.c **** 				CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_L );
+ 177:../LIB_HW/Hw_DcMotor.c **** 				SET_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_R );
+ 178:../LIB_HW/Hw_DcMotor.c **** 			}
+ 179:../LIB_HW/Hw_DcMotor.c **** 			else
+ 180:../LIB_HW/Hw_DcMotor.c **** 			{
+ 181:../LIB_HW/Hw_DcMotor.c **** 				SET_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_L );
+ 182:../LIB_HW/Hw_DcMotor.c **** 				CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_R );
+ 183:../LIB_HW/Hw_DcMotor.c **** 			}
+ 184:../LIB_HW/Hw_DcMotor.c **** 			break;
+ 185:../LIB_HW/Hw_DcMotor.c **** 
+ 186:../LIB_HW/Hw_DcMotor.c **** 		case 1:
+ 187:../LIB_HW/Hw_DcMotor.c **** 			if( Dir == HW_DCMOTOR_FOR )
+ 188:../LIB_HW/Hw_DcMotor.c **** 			{
+ 189:../LIB_HW/Hw_DcMotor.c **** 				CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_1_L );
+ 190:../LIB_HW/Hw_DcMotor.c **** 				SET_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_1_R );
+ 191:../LIB_HW/Hw_DcMotor.c **** 			}
+ 192:../LIB_HW/Hw_DcMotor.c **** 			else
+ 193:../LIB_HW/Hw_DcMotor.c **** 			{
+ 194:../LIB_HW/Hw_DcMotor.c **** 				SET_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_1_L );
+ 195:../LIB_HW/Hw_DcMotor.c **** 				CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_1_R );
+ 196:../LIB_HW/Hw_DcMotor.c **** 			}
+ 197:../LIB_HW/Hw_DcMotor.c **** 			break;
+ 198:../LIB_HW/Hw_DcMotor.c **** 
+ 199:../LIB_HW/Hw_DcMotor.c **** 		case 2:
+ 200:../LIB_HW/Hw_DcMotor.c **** 			if( Dir == HW_DCMOTOR_FOR )
+ 201:../LIB_HW/Hw_DcMotor.c **** 			{
+ 202:../LIB_HW/Hw_DcMotor.c **** 				SET_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_2_L );
+ 203:../LIB_HW/Hw_DcMotor.c **** 				CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_2_R );
+ 204:../LIB_HW/Hw_DcMotor.c **** 			}
+ 205:../LIB_HW/Hw_DcMotor.c **** 			else
+ 206:../LIB_HW/Hw_DcMotor.c **** 			{
+ 207:../LIB_HW/Hw_DcMotor.c **** 				CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_2_L );
+ 208:../LIB_HW/Hw_DcMotor.c **** 				SET_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_2_R );
+ 209:../LIB_HW/Hw_DcMotor.c **** 			}
+ 210:../LIB_HW/Hw_DcMotor.c **** 			break;
+ 211:../LIB_HW/Hw_DcMotor.c **** 
+ 212:../LIB_HW/Hw_DcMotor.c **** 		case 3:
+ 213:../LIB_HW/Hw_DcMotor.c **** 			if( Dir == HW_DCMOTOR_FOR )
+ 214:../LIB_HW/Hw_DcMotor.c **** 			{
+ 215:../LIB_HW/Hw_DcMotor.c **** 				CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_3_L );
+  44              		.loc 1 215 0
+  45 000c 40F60C43 		movw	r3, #3084
+  46 0010 C4F20103 		movt	r3, 16385
+  47 0014 1A68     		ldr	r2, [r3, #0]
+ 213:../LIB_HW/Hw_DcMotor.c **** 			if( Dir == HW_DCMOTOR_FOR )
+  48              		.loc 1 213 0
+  49 0016 0029     		cmp	r1, #0
+  50 0018 4AD0     		beq	.L13
+ 216:../LIB_HW/Hw_DcMotor.c **** 				SET_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_3_R );
+ 217:../LIB_HW/Hw_DcMotor.c **** 			}
+ 218:../LIB_HW/Hw_DcMotor.c **** 			else
+ 219:../LIB_HW/Hw_DcMotor.c **** 			{
+ 220:../LIB_HW/Hw_DcMotor.c **** 				SET_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_3_L );
+  51              		.loc 1 220 0
+  52 001a 42F40052 		orr	r2, r2, #8192
+  53 001e 1A60     		str	r2, [r3, #0]
+ 221:../LIB_HW/Hw_DcMotor.c **** 				CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_3_R );
+  54              		.loc 1 221 0
+  55 0020 1A68     		ldr	r2, [r3, #0]
+  56 0022 22F48042 		bic	r2, r2, #16384
+  57 0026 1A60     		str	r2, [r3, #0]
+  58              	.L1:
+  59 0028 7047     		bx	lr
+  60              	.L5:
+ 202:../LIB_HW/Hw_DcMotor.c **** 				SET_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_2_L );
+  61              		.loc 1 202 0
+  62 002a 40F60C43 		movw	r3, #3084
+  63 002e C4F20103 		movt	r3, 16385
+  64 0032 1A68     		ldr	r2, [r3, #0]
+ 200:../LIB_HW/Hw_DcMotor.c **** 			if( Dir == HW_DCMOTOR_FOR )
+  65              		.loc 1 200 0
+  66 0034 0029     		cmp	r1, #0
+  67 0036 33D1     		bne	.L10
+ 202:../LIB_HW/Hw_DcMotor.c **** 				SET_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_2_L );
+  68              		.loc 1 202 0
+  69 0038 42F40062 		orr	r2, r2, #2048
+  70 003c 1A60     		str	r2, [r3, #0]
+ 203:../LIB_HW/Hw_DcMotor.c **** 				CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_2_R );
+  71              		.loc 1 203 0
+  72 003e 1A68     		ldr	r2, [r3, #0]
+  73 0040 22F48052 		bic	r2, r2, #4096
+  74 0044 1A60     		str	r2, [r3, #0]
+  75 0046 7047     		bx	lr
+  76              	.L4:
+ 189:../LIB_HW/Hw_DcMotor.c **** 				CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_1_L );
+  77              		.loc 1 189 0
+  78 0048 40F60C43 		movw	r3, #3084
+  79 004c C4F20103 		movt	r3, 16385
+  80 0050 1A68     		ldr	r2, [r3, #0]
+ 187:../LIB_HW/Hw_DcMotor.c **** 			if( Dir == HW_DCMOTOR_FOR )
+  81              		.loc 1 187 0
+  82 0052 E9B9     		cbnz	r1, .L9
+ 189:../LIB_HW/Hw_DcMotor.c **** 				CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_1_L );
+  83              		.loc 1 189 0
+  84 0054 22F00402 		bic	r2, r2, #4
+  85 0058 1A60     		str	r2, [r3, #0]
+ 190:../LIB_HW/Hw_DcMotor.c **** 				SET_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_1_R );
+  86              		.loc 1 190 0
+  87 005a 1A68     		ldr	r2, [r3, #0]
+  88 005c 42F48062 		orr	r2, r2, #1024
+  89 0060 1A60     		str	r2, [r3, #0]
+  90 0062 7047     		bx	lr
+  91              	.L3:
+ 176:../LIB_HW/Hw_DcMotor.c **** 				CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_L );
+  92              		.loc 1 176 0
+  93 0064 40F60C43 		movw	r3, #3084
+  94 0068 C4F20103 		movt	r3, 16385
+  95 006c 1A68     		ldr	r2, [r3, #0]
+ 174:../LIB_HW/Hw_DcMotor.c **** 			if( Dir == HW_DCMOTOR_FOR )
+  96              		.loc 1 174 0
+  97 006e 39B9     		cbnz	r1, .L8
+ 176:../LIB_HW/Hw_DcMotor.c **** 				CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_L );
+  98              		.loc 1 176 0
+  99 0070 22F00102 		bic	r2, r2, #1
+ 100 0074 1A60     		str	r2, [r3, #0]
+ 177:../LIB_HW/Hw_DcMotor.c **** 				SET_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_R );
+ 101              		.loc 1 177 0
+ 102 0076 1A68     		ldr	r2, [r3, #0]
+ 103 0078 42F00202 		orr	r2, r2, #2
+ 104 007c 1A60     		str	r2, [r3, #0]
+ 105 007e 7047     		bx	lr
+ 106              	.L8:
+ 181:../LIB_HW/Hw_DcMotor.c **** 				SET_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_L );
+ 107              		.loc 1 181 0
+ 108 0080 42F00102 		orr	r2, r2, #1
+ 109 0084 1A60     		str	r2, [r3, #0]
+ 182:../LIB_HW/Hw_DcMotor.c **** 				CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_R );
+ 110              		.loc 1 182 0
+ 111 0086 1A68     		ldr	r2, [r3, #0]
+ 112 0088 22F00202 		bic	r2, r2, #2
+ 113 008c 1A60     		str	r2, [r3, #0]
+ 114 008e 7047     		bx	lr
+ 115              	.L9:
+ 194:../LIB_HW/Hw_DcMotor.c **** 				SET_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_1_L );
+ 116              		.loc 1 194 0
+ 117 0090 42F00402 		orr	r2, r2, #4
+ 118 0094 1A60     		str	r2, [r3, #0]
+ 195:../LIB_HW/Hw_DcMotor.c **** 				CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_1_R );
+ 119              		.loc 1 195 0
+ 120 0096 1A68     		ldr	r2, [r3, #0]
+ 121 0098 22F48062 		bic	r2, r2, #1024
+ 122 009c 1A60     		str	r2, [r3, #0]
+ 123 009e 7047     		bx	lr
+ 124              	.L10:
+ 207:../LIB_HW/Hw_DcMotor.c **** 				CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_2_L );
+ 125              		.loc 1 207 0
+ 126 00a0 22F40062 		bic	r2, r2, #2048
+ 127 00a4 1A60     		str	r2, [r3, #0]
+ 208:../LIB_HW/Hw_DcMotor.c **** 				SET_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_2_R );
+ 128              		.loc 1 208 0
+ 129 00a6 1A68     		ldr	r2, [r3, #0]
+ 130 00a8 42F48052 		orr	r2, r2, #4096
+ 131 00ac 1A60     		str	r2, [r3, #0]
+ 132 00ae 7047     		bx	lr
+ 133              	.L13:
+ 215:../LIB_HW/Hw_DcMotor.c **** 				CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_3_L );
+ 134              		.loc 1 215 0
+ 135 00b0 22F40052 		bic	r2, r2, #8192
+ 136 00b4 1A60     		str	r2, [r3, #0]
+ 216:../LIB_HW/Hw_DcMotor.c **** 				SET_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_3_R );
+ 137              		.loc 1 216 0
+ 138 00b6 1A68     		ldr	r2, [r3, #0]
+ 139 00b8 42F48042 		orr	r2, r2, #16384
+ 140 00bc 1A60     		str	r2, [r3, #0]
+ 141 00be 7047     		bx	lr
+ 142              		.cfi_endproc
+ 143              	.LFE2:
+ 145              		.section	.text.Hw_DcMotor_Stop,"ax",%progbits
+ 146              		.align	2
+ 147              		.global	Hw_DcMotor_Stop
+ 148              		.thumb
+ 149              		.thumb_func
+ 151              	Hw_DcMotor_Stop:
+ 152              	.LFB3:
+ 222:../LIB_HW/Hw_DcMotor.c **** 			}
+ 223:../LIB_HW/Hw_DcMotor.c **** 			break;
+ 224:../LIB_HW/Hw_DcMotor.c **** 	}
+ 225:../LIB_HW/Hw_DcMotor.c **** }
+ 226:../LIB_HW/Hw_DcMotor.c **** 
+ 227:../LIB_HW/Hw_DcMotor.c **** 
+ 228:../LIB_HW/Hw_DcMotor.c **** 
+ 229:../LIB_HW/Hw_DcMotor.c **** 
+ 230:../LIB_HW/Hw_DcMotor.c **** 
+ 231:../LIB_HW/Hw_DcMotor.c **** /*---------------------------------------------------------------------------
+ 232:../LIB_HW/Hw_DcMotor.c ****      TITLE   : Hw_DcMotor_Stop
+ 233:../LIB_HW/Hw_DcMotor.c ****      WORK    :
+ 234:../LIB_HW/Hw_DcMotor.c ****      ARG     : void
+ 235:../LIB_HW/Hw_DcMotor.c ****      RET     : void
+ 236:../LIB_HW/Hw_DcMotor.c **** ---------------------------------------------------------------------------*/
+ 237:../LIB_HW/Hw_DcMotor.c **** void Hw_DcMotor_Stop( u8 Ch )
+ 238:../LIB_HW/Hw_DcMotor.c **** {
+ 153              		.loc 1 238 0
+ 154              		.cfi_startproc
+ 155              		@ args = 0, pretend = 0, frame = 0
+ 156              		@ frame_needed = 0, uses_anonymous_args = 0
+ 157              		@ link register save eliminated.
+ 158              	.LVL1:
+ 239:../LIB_HW/Hw_DcMotor.c **** 	switch( Ch )
+ 159              		.loc 1 239 0
+ 160 0000 0328     		cmp	r0, #3
+ 161 0002 0FD8     		bhi	.L14
+ 162 0004 DFE800F0 		tbb	[pc, r0]
+ 163              	.L20:
+ 164 0008 29       		.byte	(.L16-.L20)/2
+ 165 0009 1C       		.byte	(.L17-.L20)/2
+ 166 000a 0F       		.byte	(.L18-.L20)/2
+ 167 000b 02       		.byte	(.L19-.L20)/2
+ 168              		.align	1
+ 169              	.L19:
+ 240:../LIB_HW/Hw_DcMotor.c **** 	{
+ 241:../LIB_HW/Hw_DcMotor.c **** 		case 0:
+ 242:../LIB_HW/Hw_DcMotor.c **** 			CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_L );
+ 243:../LIB_HW/Hw_DcMotor.c **** 			CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_R );
+ 244:../LIB_HW/Hw_DcMotor.c **** 			break;
+ 245:../LIB_HW/Hw_DcMotor.c **** 
+ 246:../LIB_HW/Hw_DcMotor.c **** 		case 1:
+ 247:../LIB_HW/Hw_DcMotor.c **** 			CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_1_L );
+ 248:../LIB_HW/Hw_DcMotor.c **** 			CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_1_R );
+ 249:../LIB_HW/Hw_DcMotor.c **** 			break;
+ 250:../LIB_HW/Hw_DcMotor.c **** 
+ 251:../LIB_HW/Hw_DcMotor.c **** 		case 2:
+ 252:../LIB_HW/Hw_DcMotor.c **** 			CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_2_L );
+ 253:../LIB_HW/Hw_DcMotor.c **** 			CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_2_R );
+ 254:../LIB_HW/Hw_DcMotor.c **** 			break;
+ 255:../LIB_HW/Hw_DcMotor.c **** 
+ 256:../LIB_HW/Hw_DcMotor.c **** 		case 3:
+ 257:../LIB_HW/Hw_DcMotor.c **** 			CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_3_L );
+ 170              		.loc 1 257 0
+ 171 000c 40F60C43 		movw	r3, #3084
+ 172 0010 C4F20103 		movt	r3, 16385
+ 173 0014 1A68     		ldr	r2, [r3, #0]
+ 174 0016 22F40052 		bic	r2, r2, #8192
+ 175 001a 1A60     		str	r2, [r3, #0]
+ 258:../LIB_HW/Hw_DcMotor.c **** 			CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_3_R );
+ 176              		.loc 1 258 0
+ 177 001c 1A68     		ldr	r2, [r3, #0]
+ 178 001e 22F48042 		bic	r2, r2, #16384
+ 179 0022 1A60     		str	r2, [r3, #0]
+ 180              	.L14:
+ 181 0024 7047     		bx	lr
+ 182              	.L18:
+ 252:../LIB_HW/Hw_DcMotor.c **** 			CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_2_L );
+ 183              		.loc 1 252 0
+ 184 0026 40F60C43 		movw	r3, #3084
+ 185 002a C4F20103 		movt	r3, 16385
+ 186 002e 1A68     		ldr	r2, [r3, #0]
+ 187 0030 22F40062 		bic	r2, r2, #2048
+ 188 0034 1A60     		str	r2, [r3, #0]
+ 253:../LIB_HW/Hw_DcMotor.c **** 			CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_2_R );
+ 189              		.loc 1 253 0
+ 190 0036 1A68     		ldr	r2, [r3, #0]
+ 191 0038 22F48052 		bic	r2, r2, #4096
+ 192 003c 1A60     		str	r2, [r3, #0]
+ 254:../LIB_HW/Hw_DcMotor.c **** 			break;
+ 193              		.loc 1 254 0
+ 194 003e 7047     		bx	lr
+ 195              	.L17:
+ 247:../LIB_HW/Hw_DcMotor.c **** 			CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_1_L );
+ 196              		.loc 1 247 0
+ 197 0040 40F60C43 		movw	r3, #3084
+ 198 0044 C4F20103 		movt	r3, 16385
+ 199 0048 1A68     		ldr	r2, [r3, #0]
+ 200 004a 22F00402 		bic	r2, r2, #4
+ 201 004e 1A60     		str	r2, [r3, #0]
+ 248:../LIB_HW/Hw_DcMotor.c **** 			CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_1_R );
+ 202              		.loc 1 248 0
+ 203 0050 1A68     		ldr	r2, [r3, #0]
+ 204 0052 22F48062 		bic	r2, r2, #1024
+ 205 0056 1A60     		str	r2, [r3, #0]
+ 249:../LIB_HW/Hw_DcMotor.c **** 			break;
+ 206              		.loc 1 249 0
+ 207 0058 7047     		bx	lr
+ 208              	.L16:
+ 209              	.LBB44:
+ 210              	.LBB45:
+ 242:../LIB_HW/Hw_DcMotor.c **** 			CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_L );
+ 211              		.loc 1 242 0
+ 212 005a 40F60C43 		movw	r3, #3084
+ 213 005e C4F20103 		movt	r3, 16385
+ 214 0062 1A68     		ldr	r2, [r3, #0]
+ 215 0064 22F00102 		bic	r2, r2, #1
+ 216 0068 1A60     		str	r2, [r3, #0]
+ 243:../LIB_HW/Hw_DcMotor.c **** 			CLR_BIT( REG_GPIOB_ODR, HW_DCMOTOR_PORT_0_R );
+ 217              		.loc 1 243 0
+ 218 006a 1A68     		ldr	r2, [r3, #0]
+ 219 006c 22F00202 		bic	r2, r2, #2
+ 220 0070 1A60     		str	r2, [r3, #0]
+ 221 0072 7047     		bx	lr
+ 222              	.LBE45:
+ 223              	.LBE44:
+ 224              		.cfi_endproc
+ 225              	.LFE3:
+ 227              		.section	.text.Hw_DcMotor_Init,"ax",%progbits
+ 228              		.align	2
+ 229              		.global	Hw_DcMotor_Init
+ 230              		.thumb
+ 231              		.thumb_func
+ 233              	Hw_DcMotor_Init:
+ 234              	.LFB1:
+  88:../LIB_HW/Hw_DcMotor.c **** {
+ 235              		.loc 1 88 0
+ 236              		.cfi_startproc
+ 237              		@ args = 0, pretend = 0, frame = 0
+ 238              		@ frame_needed = 0, uses_anonymous_args = 0
+  96:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL &= ~(0x0F << ( 0));	// Clear
+ 239              		.loc 1 96 0
+ 240 0000 4FF44062 		mov	r2, #3072
+ 241 0004 C4F20102 		movt	r2, 16385
+ 242 0008 1168     		ldr	r1, [r2, #0]
+  88:../LIB_HW/Hw_DcMotor.c **** {
+ 243              		.loc 1 88 0
+ 244 000a 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, sl, lr}
+ 245              	.LCFI0:
+ 246              		.cfi_def_cfa_offset 32
+ 247              		.cfi_offset 4, -32
+ 248              		.cfi_offset 5, -28
+ 249              		.cfi_offset 6, -24
+ 250              		.cfi_offset 7, -20
+ 251              		.cfi_offset 8, -16
+ 252              		.cfi_offset 9, -12
+ 253              		.cfi_offset 10, -8
+ 254              		.cfi_offset 14, -4
+  96:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL &= ~(0x0F << ( 0));	// Clear
+ 255              		.loc 1 96 0
+ 256 000e 21F00F01 		bic	r1, r1, #15
+ 257 0012 1160     		str	r1, [r2, #0]
+  97:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL |=  (0x03 << ( 0));	// MODE, PB.0 Output mode, max speed 50Mhz
+ 258              		.loc 1 97 0
+ 259 0014 1168     		ldr	r1, [r2, #0]
+ 114:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << ( 8));	// Clear
+ 260              		.loc 1 114 0
+ 261 0016 40F60443 		movw	r3, #3076
+  97:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL |=  (0x03 << ( 0));	// MODE, PB.0 Output mode, max speed 50Mhz
+ 262              		.loc 1 97 0
+ 263 001a 41F00301 		orr	r1, r1, #3
+ 264 001e 1160     		str	r1, [r2, #0]
+  98:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL |=  (0x00 << ( 2));	// CNF,  PB.0 General purpose output push-pul	
+ 265              		.loc 1 98 0
+ 266 0020 1168     		ldr	r1, [r2, #0]
+ 114:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << ( 8));	// Clear
+ 267              		.loc 1 114 0
+ 268 0022 C4F20103 		movt	r3, 16385
+  98:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL |=  (0x00 << ( 2));	// CNF,  PB.0 General purpose output push-pul	
+ 269              		.loc 1 98 0
+ 270 0026 1160     		str	r1, [r2, #0]
+ 102:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL &= ~(0x0F << ( 4));	// Clear
+ 271              		.loc 1 102 0
+ 272 0028 1168     		ldr	r1, [r2, #0]
+ 140:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x00 << (26));	// CNF,  PB.7 General purpose output push-pul				
+ 273              		.loc 1 140 0
+ 274 002a 0024     		movs	r4, #0
+ 102:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL &= ~(0x0F << ( 4));	// Clear
+ 275              		.loc 1 102 0
+ 276 002c 21F0F001 		bic	r1, r1, #240
+ 277 0030 1160     		str	r1, [r2, #0]
+ 103:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL |=  (0x03 << ( 4));	// MODE, PB.1 Output mode, max speed 50Mhz
+ 278              		.loc 1 103 0
+ 279 0032 1168     		ldr	r1, [r2, #0]
+ 280 0034 DFF8D880 		ldr	r8, .L24+12
+ 281 0038 41F03001 		orr	r1, r1, #48
+ 282 003c 1160     		str	r1, [r2, #0]
+ 104:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL |=  (0x00 << ( 6));	// CNF,  PB.1 General purpose output push-pul	
+ 283              		.loc 1 104 0
+ 284 003e 1168     		ldr	r1, [r2, #0]
+ 285 0040 DFF8D0A0 		ldr	sl, .L24+16
+ 286 0044 1160     		str	r1, [r2, #0]
+ 108:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL &= ~(0x0F << ( 8));	// Clear
+ 287              		.loc 1 108 0
+ 288 0046 1168     		ldr	r1, [r2, #0]
+  88:../LIB_HW/Hw_DcMotor.c **** {
+ 289              		.loc 1 88 0
+ 290 0048 82B0     		sub	sp, sp, #8
+ 291              	.LCFI1:
+ 292              		.cfi_def_cfa_offset 40
+ 108:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL &= ~(0x0F << ( 8));	// Clear
+ 293              		.loc 1 108 0
+ 294 004a 21F47061 		bic	r1, r1, #3840
+ 295 004e 1160     		str	r1, [r2, #0]
+ 109:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL |=  (0x03 << ( 8));	// MODE, PB.2 Output mode, max speed 50Mhz
+ 296              		.loc 1 109 0
+ 297 0050 1168     		ldr	r1, [r2, #0]
+ 145:../LIB_HW/Hw_DcMotor.c **** 	for( i=0; i<HW_DCMOTOR_MAX_CH; i++ )
+ 298              		.loc 1 145 0
+ 299 0052 2546     		mov	r5, r4
+ 109:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL |=  (0x03 << ( 8));	// MODE, PB.2 Output mode, max speed 50Mhz
+ 300              		.loc 1 109 0
+ 301 0054 41F44071 		orr	r1, r1, #768
+ 302 0058 1160     		str	r1, [r2, #0]
+ 110:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL |=  (0x00 << (10));	// CNF,  PB.2 General purpose output push-pul	
+ 303              		.loc 1 110 0
+ 304 005a 1168     		ldr	r1, [r2, #0]
+ 149:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].Dir   = HW_DCMOTOR_STOP;
+ 305              		.loc 1 149 0
+ 306 005c 0227     		movs	r7, #2
+ 110:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRL |=  (0x00 << (10));	// CNF,  PB.2 General purpose output push-pul	
+ 307              		.loc 1 110 0
+ 308 005e 1160     		str	r1, [r2, #0]
+ 114:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << ( 8));	// Clear
+ 309              		.loc 1 114 0
+ 310 0060 1A68     		ldr	r2, [r3, #0]
+ 150:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].Pin   = FALSE;
+ 311              		.loc 1 150 0
+ 312 0062 A146     		mov	r9, r4
+ 114:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << ( 8));	// Clear
+ 313              		.loc 1 114 0
+ 314 0064 22F47062 		bic	r2, r2, #3840
+ 315 0068 1A60     		str	r2, [r3, #0]
+ 115:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x03 << ( 8));	// MODE, PB.2 Output mode, max speed 50Mhz
+ 316              		.loc 1 115 0
+ 317 006a 1A68     		ldr	r2, [r3, #0]
+ 152:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].State = HW_DCMOTOR_STATE_STOP;
+ 318              		.loc 1 152 0
+ 319 006c 0126     		movs	r6, #1
+ 115:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x03 << ( 8));	// MODE, PB.2 Output mode, max speed 50Mhz
+ 320              		.loc 1 115 0
+ 321 006e 42F44072 		orr	r2, r2, #768
+ 322 0072 1A60     		str	r2, [r3, #0]
+ 116:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x00 << (10));	// CNF,  PB.2 General purpose output push-pul	
+ 323              		.loc 1 116 0
+ 324 0074 1A68     		ldr	r2, [r3, #0]
+ 325 0076 1A60     		str	r2, [r3, #0]
+ 120:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << (12));	// Clear
+ 326              		.loc 1 120 0
+ 327 0078 1A68     		ldr	r2, [r3, #0]
+ 328 007a 22F47042 		bic	r2, r2, #61440
+ 329 007e 1A60     		str	r2, [r3, #0]
+ 121:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x03 << (12));	// MODE, PB.2 Output mode, max speed 50Mhz
+ 330              		.loc 1 121 0
+ 331 0080 1A68     		ldr	r2, [r3, #0]
+ 332 0082 42F44052 		orr	r2, r2, #12288
+ 333 0086 1A60     		str	r2, [r3, #0]
+ 122:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x00 << (14));	// CNF,  PB.2 General purpose output push-pul	
+ 334              		.loc 1 122 0
+ 335 0088 1A68     		ldr	r2, [r3, #0]
+ 336 008a 1A60     		str	r2, [r3, #0]
+ 126:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << (16));	// Clear
+ 337              		.loc 1 126 0
+ 338 008c 1A68     		ldr	r2, [r3, #0]
+ 339 008e 22F47022 		bic	r2, r2, #983040
+ 340 0092 1A60     		str	r2, [r3, #0]
+ 127:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x03 << (16));	// MODE, PB.6 Output mode, max speed 50Mhz
+ 341              		.loc 1 127 0
+ 342 0094 1A68     		ldr	r2, [r3, #0]
+ 343 0096 42F44032 		orr	r2, r2, #196608
+ 344 009a 1A60     		str	r2, [r3, #0]
+ 128:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x00 << (18));	// CNF,  PB.6 General purpose output push-pul	
+ 345              		.loc 1 128 0
+ 346 009c 1A68     		ldr	r2, [r3, #0]
+ 347 009e 1A60     		str	r2, [r3, #0]
+ 132:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << (20));	// Clear
+ 348              		.loc 1 132 0
+ 349 00a0 1A68     		ldr	r2, [r3, #0]
+ 350 00a2 22F47002 		bic	r2, r2, #15728640
+ 351 00a6 1A60     		str	r2, [r3, #0]
+ 133:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x03 << (20));	// MODE, PB.6 Output mode, max speed 50Mhz
+ 352              		.loc 1 133 0
+ 353 00a8 1A68     		ldr	r2, [r3, #0]
+ 354 00aa 42F44012 		orr	r2, r2, #3145728
+ 355 00ae 1A60     		str	r2, [r3, #0]
+ 134:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x00 << (22));	// CNF,  PB.6 General purpose output push-pul	
+ 356              		.loc 1 134 0
+ 357 00b0 1A68     		ldr	r2, [r3, #0]
+ 358 00b2 1A60     		str	r2, [r3, #0]
+ 138:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH &= ~(0x0F << (24));	// Clear
+ 359              		.loc 1 138 0
+ 360 00b4 1A68     		ldr	r2, [r3, #0]
+ 361 00b6 22F07062 		bic	r2, r2, #251658240
+ 362 00ba 1A60     		str	r2, [r3, #0]
+ 139:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x03 << (24));	// MODE, PB.7 Output mode, max speed 50Mhz
+ 363              		.loc 1 139 0
+ 364 00bc 1A68     		ldr	r2, [r3, #0]
+ 365 00be 42F04072 		orr	r2, r2, #50331648
+ 366 00c2 1A60     		str	r2, [r3, #0]
+ 140:../LIB_HW/Hw_DcMotor.c **** 	REG_GPIOB_CRH |=  (0x00 << (26));	// CNF,  PB.7 General purpose output push-pul				
+ 367              		.loc 1 140 0
+ 368 00c4 1A68     		ldr	r2, [r3, #0]
+ 369 00c6 1A60     		str	r2, [r3, #0]
+ 370              	.LVL2:
+ 371              	.L22:
+ 147:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_Stop( i );
+ 372              		.loc 1 147 0 discriminator 2
+ 373 00c8 2846     		mov	r0, r5
+ 145:../LIB_HW/Hw_DcMotor.c **** 	for( i=0; i<HW_DCMOTOR_MAX_CH; i++ )
+ 374              		.loc 1 145 0 discriminator 2
+ 375 00ca 0135     		adds	r5, r5, #1
+ 147:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_Stop( i );
+ 376              		.loc 1 147 0 discriminator 2
+ 377 00cc C047     		blx	r8
+ 378              	.LVL3:
+ 145:../LIB_HW/Hw_DcMotor.c **** 	for( i=0; i<HW_DCMOTOR_MAX_CH; i++ )
+ 379              		.loc 1 145 0 discriminator 2
+ 380 00ce EDB2     		uxtb	r5, r5
+ 381              	.LVL4:
+  87:../LIB_HW/Hw_DcMotor.c **** void Hw_DcMotor_Init( void )
+ 382              		.loc 1 87 0 discriminator 2
+ 383 00d0 04EB0A03 		add	r3, r4, sl
+ 149:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].Dir   = HW_DCMOTOR_STOP;
+ 384              		.loc 1 149 0 discriminator 2
+ 385 00d4 5F70     		strb	r7, [r3, #1]
+ 150:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].Pin   = FALSE;
+ 386              		.loc 1 150 0 discriminator 2
+ 387 00d6 83F80290 		strb	r9, [r3, #2]
+ 151:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].Speed = 0;
+ 388              		.loc 1 151 0 discriminator 2
+ 389 00da A3F80490 		strh	r9, [r3, #4]	@ movhi
+ 152:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_State[i].State = HW_DCMOTOR_STATE_STOP;
+ 390              		.loc 1 152 0 discriminator 2
+ 391 00de 04F80A60 		strb	r6, [r4, sl]
+ 392 00e2 0634     		adds	r4, r4, #6
+ 145:../LIB_HW/Hw_DcMotor.c **** 	for( i=0; i<HW_DCMOTOR_MAX_CH; i++ )
+ 393              		.loc 1 145 0 discriminator 2
+ 394 00e4 042D     		cmp	r5, #4
+ 395 00e6 EFD1     		bne	.L22
+ 155:../LIB_HW/Hw_DcMotor.c **** 	Hw_Timer_Set  ( HW_TIMER_CH_DCMOTOR, 1, LOOP_TIME, Hw_DcMotor_Tick, NULL );
+ 396              		.loc 1 155 0
+ 397 00e8 0023     		movs	r3, #0
+ 398 00ea 0620     		movs	r0, #6
+ 399 00ec 0093     		str	r3, [sp, #0]
+ 400 00ee 0121     		movs	r1, #1
+ 401 00f0 0222     		movs	r2, #2
+ 402 00f2 044B     		ldr	r3, .L24
+ 403 00f4 044C     		ldr	r4, .L24+4
+ 404 00f6 A047     		blx	r4
+ 405              	.LVL5:
+ 156:../LIB_HW/Hw_DcMotor.c **** 	Hw_Timer_Start( HW_TIMER_CH_DCMOTOR );
+ 406              		.loc 1 156 0
+ 407 00f8 0620     		movs	r0, #6
+ 408 00fa 044B     		ldr	r3, .L24+8
+ 409 00fc 9847     		blx	r3
+ 410              	.LVL6:
+ 157:../LIB_HW/Hw_DcMotor.c **** }
+ 411              		.loc 1 157 0
+ 412 00fe 02B0     		add	sp, sp, #8
+ 413 0100 BDE8F087 		pop	{r4, r5, r6, r7, r8, r9, sl, pc}
+ 414              	.L25:
+ 415              		.align	2
+ 416              	.L24:
+ 417 0104 00000000 		.word	Hw_DcMotor_Tick
+ 418 0108 00000000 		.word	Hw_Timer_Set
+ 419 010c 00000000 		.word	Hw_Timer_Start
+ 420 0110 00000000 		.word	Hw_DcMotor_Stop
+ 421 0114 00000000 		.word	Hw_DcMotor_State
+ 422              		.cfi_endproc
+ 423              	.LFE1:
+ 425              		.section	.text.Hw_DcMotor_Tick,"ax",%progbits
+ 426              		.align	2
+ 427              		.global	Hw_DcMotor_Tick
+ 428              		.thumb
+ 429              		.thumb_func
+ 431              	Hw_DcMotor_Tick:
+ 432              	.LFB0:
+  35:../LIB_HW/Hw_DcMotor.c **** {
+ 433              		.loc 1 35 0
+ 434              		.cfi_startproc
+ 435              		@ args = 0, pretend = 0, frame = 8
+ 436              		@ frame_needed = 0, uses_anonymous_args = 0
+ 437              	.LVL7:
+ 438 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, sl, fp, lr}
+ 439              	.LCFI2:
+ 440              		.cfi_def_cfa_offset 36
+ 441              		.cfi_offset 4, -36
+ 442              		.cfi_offset 5, -32
+ 443              		.cfi_offset 6, -28
+ 444              		.cfi_offset 7, -24
+ 445              		.cfi_offset 8, -20
+ 446              		.cfi_offset 9, -16
+ 447              		.cfi_offset 10, -12
+ 448              		.cfi_offset 11, -8
+ 449              		.cfi_offset 14, -4
+ 450 0004 274E     		ldr	r6, .L39
+  61:../LIB_HW/Hw_DcMotor.c **** 			DutyRatio = Cnt*HW_DCMOTOR_MAX_PWM/HW_DCMOTOR_MAX_CNT;
+ 451              		.loc 1 61 0
+ 452 0006 0024     		movs	r4, #0
+ 453 0008 B6F800B0 		ldrh	fp, [r6, #0]
+ 454 000c DFF898A0 		ldr	sl, .L39+4
+ 455 0010 0BEB8B07 		add	r7, fp, fp, lsl #2
+ 456 0014 7F00     		lsls	r7, r7, #1
+  35:../LIB_HW/Hw_DcMotor.c **** {
+ 457              		.loc 1 35 0
+ 458 0016 83B0     		sub	sp, sp, #12
+ 459              	.LCFI3:
+ 460              		.cfi_def_cfa_offset 48
+  61:../LIB_HW/Hw_DcMotor.c **** 			DutyRatio = Cnt*HW_DCMOTOR_MAX_PWM/HW_DCMOTOR_MAX_CNT;
+ 461              		.loc 1 61 0
+ 462 0018 BFB2     		uxth	r7, r7
+  42:../LIB_HW/Hw_DcMotor.c **** 	for( i=0; i<HW_DCMOTOR_MAX_CH; i++ )
+ 463              		.loc 1 42 0
+ 464 001a 2546     		mov	r5, r4
+  66:../LIB_HW/Hw_DcMotor.c **** 				Hw_DcMotor_State[i].Pin = FALSE;
+ 465              		.loc 1 66 0
+ 466 001c A046     		mov	r8, r4
+ 467              	.LVL8:
  468              	.L30:
- 214:../LIB_AP/Ap_EduMenu.c ****            			if( Hw_Uart_GetchNoWait( HW_USE_UART_CH_MENU, &UartData ) == TRUE )
- 469              		.loc 1 214 0
- 470 018e 0020     		movs	r0, #0
- 471 0190 0DF10F01 		add	r1, sp, #15
- 472 0194 A847     		blx	r5
- 473              	.LVL43:
- 474 0196 0128     		cmp	r0, #1
- 475 0198 0FD0     		beq	.L46
- 476              	.L44:
- 209:../LIB_AP/Ap_EduMenu.c ****            			if( Hw_Uart_GetchNoWait( HW_USE_UART_CH_BT, &UartData) == TRUE )
- 477              		.loc 1 209 0
- 478 019a 0120     		movs	r0, #1
- 479 019c 0DF10F01 		add	r1, sp, #15
- 480 01a0 A847     		blx	r5
- 481              	.LVL44:
- 482 01a2 0128     		cmp	r0, #1
- 483 01a4 F3D1     		bne	.L30
- 211:../LIB_AP/Ap_EduMenu.c ****            				Lb_printf( "BT Rxd : %c \n", UartData );
- 484              		.loc 1 211 0
- 485 01a6 9DF80F10 		ldrb	r1, [sp, #15]	@ zero_extendqisi2
- 486 01aa 4748     		ldr	r0, .L50+40
- 487 01ac A047     		blx	r4
- 488              	.LVL45:
- 214:../LIB_AP/Ap_EduMenu.c ****            			if( Hw_Uart_GetchNoWait( HW_USE_UART_CH_MENU, &UartData ) == TRUE )
- 489              		.loc 1 214 0
- 490 01ae 0020     		movs	r0, #0
- 491 01b0 0DF10F01 		add	r1, sp, #15
- 492 01b4 A847     		blx	r5
- 493              	.LVL46:
- 494 01b6 0128     		cmp	r0, #1
- 495 01b8 EFD1     		bne	.L44
- 496              	.L46:
- 216:../LIB_AP/Ap_EduMenu.c ****            				if( UartData == 'x' )
- 497              		.loc 1 216 0
- 498 01ba 9DF80F20 		ldrb	r2, [sp, #15]	@ zero_extendqisi2
- 222:../LIB_AP/Ap_EduMenu.c ****            					Hw_Uart_Print( HW_USE_UART_CH_BT, "Menu:Send : %c\r\n",UartData );
- 499              		.loc 1 222 0
- 500 01be 4349     		ldr	r1, .L50+44
- 216:../LIB_AP/Ap_EduMenu.c ****            				if( UartData == 'x' )
- 501              		.loc 1 216 0
- 502 01c0 782A     		cmp	r2, #120
- 503 01c2 69D0     		beq	.L32
- 222:../LIB_AP/Ap_EduMenu.c ****            					Hw_Uart_Print( HW_USE_UART_CH_BT, "Menu:Send : %c\r\n",UartData );
- 504              		.loc 1 222 0
- 505 01c4 B047     		blx	r6
- 506              	.LVL47:
- 507 01c6 E8E7     		b	.L44
- 508              	.L20:
- 201:../LIB_AP/Ap_EduMenu.c ****            		Hw_CLcd_Print( 0, 1, "Cnt : %d", Seg_Count++);
- 509              		.loc 1 201 0
- 510 01c8 414D     		ldr	r5, .L50+48
- 511 01ca 0121     		movs	r1, #1
- 512 01cc 2B88     		ldrh	r3, [r5, #0]
- 513 01ce 414A     		ldr	r2, .L50+52
- 514 01d0 5E18     		adds	r6, r3, r1
- 515 01d2 2E80     		strh	r6, [r5, #0]	@ movhi
- 516 01d4 0020     		movs	r0, #0
- 517 01d6 404D     		ldr	r5, .L50+56
- 518 01d8 A847     		blx	r5
- 519              	.LVL48:
- 202:../LIB_AP/Ap_EduMenu.c **** 				break;  
- 520              		.loc 1 202 0
- 521 01da 28E7     		b	.L43
- 522              	.L19:
- 197:../LIB_AP/Ap_EduMenu.c ****            		Hw_7Seg_Print( 0, "%d", Seg_Count++ );
- 523              		.loc 1 197 0
- 524 01dc 3C4B     		ldr	r3, .L50+48
- 525 01de 0020     		movs	r0, #0
- 526 01e0 1A88     		ldrh	r2, [r3, #0]
- 527 01e2 3E49     		ldr	r1, .L50+60
- 528 01e4 551C     		adds	r5, r2, #1
- 529 01e6 1D80     		strh	r5, [r3, #0]	@ movhi
- 530 01e8 3D4B     		ldr	r3, .L50+64
- 531 01ea 9847     		blx	r3
- 532              	.LVL49:
- 198:../LIB_AP/Ap_EduMenu.c ****                break; 
- 533              		.loc 1 198 0
- 534 01ec 1FE7     		b	.L43
- 535              	.L18:
- 164:../LIB_AP/Ap_EduMenu.c ****            		Lb_printf("KeyPad Start : press two keys to exit\n");
- 536              		.loc 1 164 0
- 537 01ee 3D48     		ldr	r0, .L50+68
- 538 01f0 A047     		blx	r4
- 539              	.LVL50:
- 540 01f2 3D4E     		ldr	r6, .L50+72
- 541 01f4 3D4D     		ldr	r5, .L50+76
- 181:../LIB_AP/Ap_EduMenu.c **** 						KeyNum = Hw_KeyPad_GetEventKeyNum(HW_KEYPAD_EVENT_REPEAT);
- 542              		.loc 1 181 0
- 543 01f6 DFF814A1 		ldr	sl, .L50+108
- 183:../LIB_AP/Ap_EduMenu.c **** 						Lb_printf("%x KeyRepeat Cnt : %d\n",Hw_KeyPad_GetEventKeyData(HW_KEYPAD_EVENT_REPEAT), Hw_Key
- 544              		.loc 1 183 0
- 545 01fa DFF81481 		ldr	r8, .L50+112
- 546 01fe 06E0     		b	.L29
- 547              	.LVL51:
- 548              	.L26:
- 174:../LIB_AP/Ap_EduMenu.c **** 					if( IS_SET_BIT( KeyEvent, HW_KEYPAD_EVENT_RELEASED) )
- 549              		.loc 1 174 0
- 550 0200 4207     		lsls	r2, r0, #29
- 551 0202 31D4     		bmi	.L47
- 179:../LIB_AP/Ap_EduMenu.c **** 					if( IS_SET_BIT( KeyEvent, HW_KEYPAD_EVENT_REPEAT) )
- 552              		.loc 1 179 0
- 553 0204 8307     		lsls	r3, r0, #30
- 554 0206 35D4     		bmi	.L48
- 555              	.LVL52:
- 556              	.L27:
- 186:../LIB_AP/Ap_EduMenu.c **** 					KeyPressedCnt = Hw_KeyPad_GetPressedCnt();
- 557              		.loc 1 186 0
- 558 0208 A847     		blx	r5
- 559              	.LVL53:
- 188:../LIB_AP/Ap_EduMenu.c **** 					if( KeyPressedCnt >= 2 )
- 560              		.loc 1 188 0
- 561 020a 0128     		cmp	r0, #1
- 562 020c 0CD8     		bhi	.L49
- 563              	.LVL54:
- 564              	.L29:
- 167:../LIB_AP/Ap_EduMenu.c ****            			KeyEvent = Hw_KeyPad_WaitForEvent(1000);
- 565              		.loc 1 167 0
- 566 020e 4FF47A70 		mov	r0, #1000
- 567 0212 B047     		blx	r6
- 568              	.LVL55:
- 169:../LIB_AP/Ap_EduMenu.c ****            			if( IS_SET_BIT( KeyEvent, HW_KEYPAD_EVENT_PRESSED) )
- 569              		.loc 1 169 0
- 570 0214 C107     		lsls	r1, r0, #31
- 571 0216 F3D5     		bpl	.L26
- 171:../LIB_AP/Ap_EduMenu.c ****            				Lb_printf("%x KeyPressed\n", Hw_KeyPad_GetEventKeyData(HW_KEYPAD_EVENT_PRESSED) );  
- 572              		.loc 1 171 0
- 573 0218 0020     		movs	r0, #0
- 574              	.LVL56:
- 575 021a C047     		blx	r8
- 576              	.LVL57:
- 577 021c 0146     		mov	r1, r0
- 578 021e 3448     		ldr	r0, .L50+80
- 579 0220 A047     		blx	r4
- 580              	.LVL58:
- 186:../LIB_AP/Ap_EduMenu.c **** 					KeyPressedCnt = Hw_KeyPad_GetPressedCnt();
- 581              		.loc 1 186 0
- 582 0222 A847     		blx	r5
- 583              	.LVL59:
- 188:../LIB_AP/Ap_EduMenu.c **** 					if( KeyPressedCnt >= 2 )
- 584              		.loc 1 188 0
- 585 0224 0128     		cmp	r0, #1
- 586 0226 F2D9     		bls	.L29
- 587              	.L49:
- 190:../LIB_AP/Ap_EduMenu.c **** 						Lb_printf("Key Exit\n");
- 588              		.loc 1 190 0
- 589 0228 3248     		ldr	r0, .L50+84
- 590              	.LVL60:
- 591 022a A047     		blx	r4
- 592              	.LVL61:
- 194:../LIB_AP/Ap_EduMenu.c **** 				break;
- 593              		.loc 1 194 0
- 594 022c FFE6     		b	.L43
- 595              	.L17:
- 153:../LIB_AP/Ap_EduMenu.c ****            		Hw_Led_Toggle( 0 );
- 596              		.loc 1 153 0
- 597 022e 324E     		ldr	r6, .L50+88
- 598 0230 0020     		movs	r0, #0
- 154:../LIB_AP/Ap_EduMenu.c ****            		Hw_Timer_Delay_ms(500);
- 599              		.loc 1 154 0
- 600 0232 324D     		ldr	r5, .L50+92
- 153:../LIB_AP/Ap_EduMenu.c ****            		Hw_Led_Toggle( 0 );
- 601              		.loc 1 153 0
- 602 0234 B047     		blx	r6
- 603              	.LVL62:
- 154:../LIB_AP/Ap_EduMenu.c ****            		Hw_Timer_Delay_ms(500);
- 604              		.loc 1 154 0
- 605 0236 4FF4FA70 		mov	r0, #500
- 606 023a A847     		blx	r5
- 607              	.LVL63:
- 155:../LIB_AP/Ap_EduMenu.c ****            		Hw_Led_Toggle( 1 );
- 608              		.loc 1 155 0
- 609 023c 0120     		movs	r0, #1
- 610 023e B047     		blx	r6
- 611              	.LVL64:
- 156:../LIB_AP/Ap_EduMenu.c ****            		Hw_Timer_Delay_ms(500);
- 612              		.loc 1 156 0
- 613 0240 4FF4FA70 		mov	r0, #500
- 614 0244 A847     		blx	r5
- 615              	.LVL65:
- 157:../LIB_AP/Ap_EduMenu.c ****            		Hw_Led_Toggle( 2 );;
- 616              		.loc 1 157 0
- 617 0246 0220     		movs	r0, #2
- 618 0248 B047     		blx	r6
- 619              	.LVL66:
- 158:../LIB_AP/Ap_EduMenu.c ****            		Hw_Timer_Delay_ms(500);
- 620              		.loc 1 158 0
- 621 024a 4FF4FA70 		mov	r0, #500
- 622 024e A847     		blx	r5
- 623              	.LVL67:
- 159:../LIB_AP/Ap_EduMenu.c ****            		Hw_Led_Toggle( 3 );
- 624              		.loc 1 159 0
- 625 0250 0320     		movs	r0, #3
- 626 0252 B047     		blx	r6
- 627              	.LVL68:
- 160:../LIB_AP/Ap_EduMenu.c ****            		Hw_Timer_Delay_ms(500);
- 628              		.loc 1 160 0
- 629 0254 4FF4FA70 		mov	r0, #500
- 630 0258 A847     		blx	r5
- 631              	.LVL69:
- 161:../LIB_AP/Ap_EduMenu.c ****                	break;
- 632              		.loc 1 161 0
- 633 025a E8E6     		b	.L43
- 634              	.L23:
- 250:../LIB_AP/Ap_EduMenu.c **** 				Ap_EduMenu_ShowMenu();
- 635              		.loc 1 250 0
- 636 025c 40F20003 		movw	r3, #:lower16:Ap_EduMenu_ShowMenu
- 637 0260 C0F20003 		movt	r3, #:upper16:Ap_EduMenu_ShowMenu
- 638 0264 9847     		blx	r3
- 639              	.LVL70:
- 251:../LIB_AP/Ap_EduMenu.c **** 				break;
- 640              		.loc 1 251 0
- 641 0266 E2E6     		b	.L43
- 642              	.LVL71:
- 643              	.L47:
- 176:../LIB_AP/Ap_EduMenu.c **** 						Lb_printf("%x KeyReleased\n", Hw_KeyPad_GetEventKeyData(HW_KEYPAD_EVENT_RELEASED) );         
- 644              		.loc 1 176 0
- 645 0268 0220     		movs	r0, #2
- 646              	.LVL72:
- 647 026a C047     		blx	r8
- 648              	.LVL73:
- 649 026c 0146     		mov	r1, r0
- 650 026e 2448     		ldr	r0, .L50+96
- 651 0270 A047     		blx	r4
- 652              	.LVL74:
- 653 0272 C9E7     		b	.L27
- 654              	.LVL75:
- 655              	.L48:
- 181:../LIB_AP/Ap_EduMenu.c **** 						KeyNum = Hw_KeyPad_GetEventKeyNum(HW_KEYPAD_EVENT_REPEAT);
- 656              		.loc 1 181 0
- 657 0274 0120     		movs	r0, #1
- 658              	.LVL76:
- 659 0276 D047     		blx	sl
- 660              	.LVL77:
- 661 0278 8146     		mov	r9, r0
- 662              	.LVL78:
- 183:../LIB_AP/Ap_EduMenu.c **** 						Lb_printf("%x KeyRepeat Cnt : %d\n",Hw_KeyPad_GetEventKeyData(HW_KEYPAD_EVENT_REPEAT), Hw_Key
- 663              		.loc 1 183 0
- 664 027a 0120     		movs	r0, #1
- 665              	.LVL79:
- 666 027c C047     		blx	r8
- 667              	.LVL80:
- 668 027e 40F20003 		movw	r3, #:lower16:Hw_KeyPad_GetRepeatCnt
- 669 0282 8346     		mov	fp, r0
- 670 0284 C0F20003 		movt	r3, #:upper16:Hw_KeyPad_GetRepeatCnt
- 671 0288 5FFA89F0 		uxtb	r0, r9
- 672 028c 9847     		blx	r3
- 673              	.LVL81:
- 674 028e 5946     		mov	r1, fp
- 675 0290 0246     		mov	r2, r0
- 676 0292 1C48     		ldr	r0, .L50+100
- 677 0294 A047     		blx	r4
- 678              	.LVL82:
- 679 0296 B7E7     		b	.L27
- 680              	.LVL83:
- 681              	.L32:
- 228:../LIB_AP/Ap_EduMenu.c **** 				Lb_printf("BT Test Exit\n");
- 682              		.loc 1 228 0
- 683 0298 1B48     		ldr	r0, .L50+104
- 684 029a A047     		blx	r4
- 685              	.LVL84:
- 229:../LIB_AP/Ap_EduMenu.c **** 				break; 
- 686              		.loc 1 229 0
- 687 029c C7E6     		b	.L43
- 688              	.L51:
- 689 029e 00BF     		.align	2
- 690              	.L50:
- 691 02a0 00000000 		.word	Hw_KeyPad_SetEventFunc
- 692 02a4 00000000 		.word	KeyPad_UpKeyEvent
- 693 02a8 00000000 		.word	KeyPad_DownKeyEvent
- 694 02ac 00000000 		.word	Ap_EduMenu_GetCmd
- 695 02b0 00000000 		.word	Lb_printf
- 696 02b4 AC030000 		.word	.LC26
- 697 02b8 BC030000 		.word	.LC27
- 698 02bc 58030000 		.word	.LC22
- 699 02c0 00000000 		.word	Hw_Uart_GetchNoWait
- 700 02c4 00000000 		.word	Hw_Uart_Print
- 701 02c8 78030000 		.word	.LC23
- 702 02cc 88030000 		.word	.LC24
- 703 02d0 00000000 		.word	.LANCHOR0
- 704 02d4 4C030000 		.word	.LC21
- 705 02d8 00000000 		.word	Hw_CLcd_Print
- 706 02dc 00000000 		.word	.LC0
- 707 02e0 00000000 		.word	Hw_7Seg_Print
- 708 02e4 E0020000 		.word	.LC16
- 709 02e8 00000000 		.word	Hw_KeyPad_WaitForEvent
- 710 02ec 00000000 		.word	Hw_KeyPad_GetPressedCnt
- 711 02f0 08030000 		.word	.LC17
- 712 02f4 40030000 		.word	.LC20
- 713 02f8 00000000 		.word	Hw_Led_Toggle
- 714 02fc 00000000 		.word	Hw_Timer_Delay_ms
- 715 0300 18030000 		.word	.LC18
- 716 0304 28030000 		.word	.LC19
- 717 0308 9C030000 		.word	.LC25
- 718 030c 00000000 		.word	Hw_KeyPad_GetEventKeyNum
- 719 0310 00000000 		.word	Hw_KeyPad_GetEventKeyData
- 720              		.cfi_endproc
- 721              	.LFE4:
- 723              		.global	Seg_Count
- 724              		.section	.rodata.str1.4,"aMS",%progbits,1
- 725              		.align	2
- 726              	.LC0:
- 727 0000 256400   		.ascii	"%d\000"
- 728 0003 00       		.space	1
- 729              	.LC1:
- 730 0004 0A0A00   		.ascii	"\012\012\000"
- 731 0007 00       		.space	1
- 732              	.LC2:
- 733 0008 2A2A2A2A 		.ascii	"***************************************************"
- 733      2A2A2A2A 
- 733      2A2A2A2A 
- 733      2A2A2A2A 
- 733      2A2A2A2A 
- 734 003b 2A2A2A2A 		.ascii	"****\012\000"
- 734      0A00
- 735 0041 000000   		.space	3
- 736              	.LC3:
- 737 0044 20202020 		.ascii	"                      Edu V0.5                     "
- 737      20202020 
- 737      20202020 
- 737      20202020 
- 737      20202020 
- 738 0077 20202020 		.ascii	"    \012\000"
- 738      0A00
- 739 007d 000000   		.space	3
- 740              	.LC4:
- 741 0080 2A20312E 		.ascii	"* 1. Test.. LED                                    "
- 741      20546573 
- 741      742E2E20 
- 741      4C454420 
- 741      20202020 
- 742 00b3 2020202A 		.ascii	"   *\012\000"
- 742      0A00
- 743 00b9 000000   		.space	3
- 744              	.LC5:
- 745 00bc 2A20322E 		.ascii	"* 2. Test.. KeyPad                                 "
- 745      20546573 
- 745      742E2E20 
- 745      4B657950 
- 745      61642020 
- 746 00ef 2020202A 		.ascii	"   *\012\000"
- 746      0A00
- 747 00f5 000000   		.space	3
- 748              	.LC6:
- 749 00f8 2A20332E 		.ascii	"* 3. Test.. 7Seg                                   "
- 749      20546573 
- 749      742E2E20 
- 749      37536567 
- 749      20202020 
- 750 012b 2020202A 		.ascii	"   *\012\000"
- 750      0A00
- 751 0131 000000   		.space	3
- 752              	.LC7:
- 753 0134 2A20342E 		.ascii	"* 4. Test.. CLcd                                   "
- 753      20546573 
- 753      742E2E20 
- 753      434C6364 
- 753      20202020 
- 754 0167 2020202A 		.ascii	"   *\012\000"
- 754      0A00
- 755 016d 000000   		.space	3
- 756              	.LC8:
- 757 0170 2A20352E 		.ascii	"* 5. Test.. BT                                     "
- 757      20546573 
- 757      742E2E20 
- 757      42542020 
- 757      20202020 
- 758 01a3 2020202A 		.ascii	"   *\012\000"
- 758      0A00
- 759 01a9 000000   		.space	3
- 760              	.LC9:
- 761 01ac 2A20362E 		.ascii	"* 6. Test.. Temperature                            "
- 761      20546573 
- 761      742E2E20 
- 761      54656D70 
- 761      65726174 
- 762 01df 2020202A 		.ascii	"   *\012\000"
- 762      0A00
- 763 01e5 000000   		.space	3
- 764              	.LC10:
- 765 01e8 2A20372E 		.ascii	"* 7.                                               "
- 765      20202020 
- 765      20202020 
- 765      20202020 
- 765      20202020 
- 766 021b 2020202A 		.ascii	"   *\012\000"
- 766      0A00
- 767 0221 000000   		.space	3
- 768              	.LC11:
- 769 0224 2A20382E 		.ascii	"* 8.                                               "
- 769      20202020 
- 769      20202020 
- 769      20202020 
- 769      20202020 
- 770 0257 2020202A 		.ascii	"   *\012\000"
- 770      0A00
- 771 025d 000000   		.space	3
- 772              	.LC12:
- 773 0260 2A20392E 		.ascii	"* 9.                                               "
- 773      20202020 
- 773      20202020 
- 773      20202020 
- 773      20202020 
- 774 0293 2020202A 		.ascii	"   *\012\000"
- 774      0A00
- 775 0299 000000   		.space	3
- 776              	.LC13:
- 777 029c 2A206D2E 		.ascii	"* m.  Menu                                         "
- 777      20204D65 
- 777      6E752020 
- 777      20202020 
- 777      20202020 
- 778 02cf 2020202A 		.ascii	"   *\012\000"
- 778      0A00
- 779 02d5 000000   		.space	3
- 780              	.LC14:
- 781 02d8 0A00     		.ascii	"\012\000"
- 782 02da 0000     		.space	2
- 783              	.LC15:
- 784 02dc 3E3E2000 		.ascii	">> \000"
- 785              	.LC16:
- 786 02e0 4B657950 		.ascii	"KeyPad Start : press two keys to exit\012\000"
- 786      61642053 
- 786      74617274 
- 786      203A2070 
- 786      72657373 
- 787 0307 00       		.space	1
- 788              	.LC17:
- 789 0308 2578204B 		.ascii	"%x KeyPressed\012\000"
- 789      65795072 
- 789      65737365 
- 789      640A00
- 790 0317 00       		.space	1
- 791              	.LC18:
- 792 0318 2578204B 		.ascii	"%x KeyReleased\012\000"
- 792      65795265 
- 792      6C656173 
- 792      65640A00 
- 793              	.LC19:
- 794 0328 2578204B 		.ascii	"%x KeyRepeat Cnt : %d\012\000"
- 794      65795265 
- 794      70656174 
- 794      20436E74 
- 794      203A2025 
- 795 033f 00       		.space	1
- 796              	.LC20:
- 797 0340 4B657920 		.ascii	"Key Exit\012\000"
- 797      45786974 
- 797      0A00
- 798 034a 0000     		.space	2
- 799              	.LC21:
- 800 034c 436E7420 		.ascii	"Cnt : %d\000"
- 800      3A202564 
- 800      00
- 801 0355 000000   		.space	3
- 802              	.LC22:
- 803 0358 42542054 		.ascii	"BT Test Start, press x to exit\012\000"
- 803      65737420 
- 803      53746172 
- 803      742C2070 
- 803      72657373 
- 804              	.LC23:
- 805 0378 42542052 		.ascii	"BT Rxd : %c \012\000"
- 805      7864203A 
- 805      20256320 
- 805      0A00
- 806 0386 0000     		.space	2
- 807              	.LC24:
- 808 0388 4D656E75 		.ascii	"Menu:Send : %c\015\012\000"
- 808      3A53656E 
- 808      64203A20 
- 808      25630D0A 
- 808      00
- 809 0399 000000   		.space	3
- 810              	.LC25:
- 811 039c 42542054 		.ascii	"BT Test Exit\012\000"
- 811      65737420 
- 811      45786974 
- 811      0A00
- 812 03aa 0000     		.space	2
- 813              	.LC26:
- 814 03ac 41444320 		.ascii	"ADC 15 : %d\012\000"
- 814      3135203A 
- 814      2025640A 
- 814      00
- 815 03b9 000000   		.space	3
- 816              	.LC27:
- 817 03bc 41444320 		.ascii	"ADC 16 : %d\012\000"
- 817      3136203A 
- 817      2025640A 
- 817      00
- 818 03c9 000000   		.section	.bss.Seg_Count,"aw",%nobits
- 819              		.align	1
- 820              		.set	.LANCHOR0,. + 0
- 823              	Seg_Count:
- 824 0000 0000     		.space	2
- 825              		.text
- 826              	.Letext0:
- 827              		.file 2 "../LIB_HW/Hw_Define.h"
+  34:../LIB_HW/Hw_DcMotor.c **** void Hw_DcMotor_Tick( void )
+ 469              		.loc 1 34 0
+ 470 001e 04EB0A01 		add	r1, r4, sl
+ 471 0022 8946     		mov	r9, r1
+  44:../LIB_HW/Hw_DcMotor.c **** 		if( Cnt == 0 )
+ 472              		.loc 1 44 0
+ 473 0024 BBF1000F 		cmp	fp, #0
+ 474 0028 23D1     		bne	.L27
+  46:../LIB_HW/Hw_DcMotor.c **** 			if( Hw_DcMotor_State[i].Speed > 0 && Hw_DcMotor_State[i].Dir != HW_DCMOTOR_STOP )
+ 475              		.loc 1 46 0
+ 476 002a 8988     		ldrh	r1, [r1, #4]
+  53:../LIB_HW/Hw_DcMotor.c **** 				Hw_DcMotor_Stop(i);
+ 477              		.loc 1 53 0
+ 478 002c 2846     		mov	r0, r5
+  46:../LIB_HW/Hw_DcMotor.c **** 			if( Hw_DcMotor_State[i].Speed > 0 && Hw_DcMotor_State[i].Dir != HW_DCMOTOR_STOP )
+ 479              		.loc 1 46 0
+ 480 002e 0029     		cmp	r1, #0
+ 481 0030 30D0     		beq	.L28
+  46:../LIB_HW/Hw_DcMotor.c **** 			if( Hw_DcMotor_State[i].Speed > 0 && Hw_DcMotor_State[i].Dir != HW_DCMOTOR_STOP )
+ 482              		.loc 1 46 0 is_stmt 0 discriminator 1
+ 483 0032 99F80110 		ldrb	r1, [r9, #1]	@ zero_extendqisi2
+ 484 0036 0229     		cmp	r1, #2
+ 485 0038 2CD0     		beq	.L28
+  48:../LIB_HW/Hw_DcMotor.c **** 				Hw_DcMotor_Run( i, Hw_DcMotor_State[i].Dir );
+ 486              		.loc 1 48 0 is_stmt 1
+ 487 003a 40F20003 		movw	r3, #:lower16:Hw_DcMotor_Run
+ 488 003e C0F20003 		movt	r3, #:upper16:Hw_DcMotor_Run
+ 489 0042 9847     		blx	r3
+ 490              	.LVL9:
+  49:../LIB_HW/Hw_DcMotor.c **** 				Hw_DcMotor_State[i].Pin = TRUE;
+ 491              		.loc 1 49 0
+ 492 0044 0123     		movs	r3, #1
+ 493 0046 89F80230 		strb	r3, [r9, #2]
+ 494              	.L29:
+  42:../LIB_HW/Hw_DcMotor.c **** 	for( i=0; i<HW_DCMOTOR_MAX_CH; i++ )
+ 495              		.loc 1 42 0
+ 496 004a 0135     		adds	r5, r5, #1
+ 497 004c EDB2     		uxtb	r5, r5
+ 498              	.LVL10:
+ 499 004e 0634     		adds	r4, r4, #6
+ 500 0050 042D     		cmp	r5, #4
+ 501 0052 E4D1     		bne	.L30
+  72:../LIB_HW/Hw_DcMotor.c **** 	Cnt++;
+ 502              		.loc 1 72 0
+ 503 0054 0BF1010C 		add	ip, fp, #1
+ 504 0058 1FFA8CFC 		uxth	ip, ip
+  74:../LIB_HW/Hw_DcMotor.c **** 	if( Cnt >= HW_DCMOTOR_MAX_CNT ) Cnt = 0;
+ 505              		.loc 1 74 0
+ 506 005c BCF1090F 		cmp	ip, #9
+  72:../LIB_HW/Hw_DcMotor.c **** 	Cnt++;
+ 507              		.loc 1 72 0
+ 508 0060 A6F800C0 		strh	ip, [r6, #0]	@ movhi
+  74:../LIB_HW/Hw_DcMotor.c **** 	if( Cnt >= HW_DCMOTOR_MAX_CNT ) Cnt = 0;
+ 509              		.loc 1 74 0
+ 510 0064 02D9     		bls	.L26
+  74:../LIB_HW/Hw_DcMotor.c **** 	if( Cnt >= HW_DCMOTOR_MAX_CNT ) Cnt = 0;
+ 511              		.loc 1 74 0 is_stmt 0 discriminator 1
+ 512 0066 0F4B     		ldr	r3, .L39
+ 513 0068 0022     		movs	r2, #0
+ 514 006a 1A80     		strh	r2, [r3, #0]	@ movhi
+ 515              	.L26:
+  75:../LIB_HW/Hw_DcMotor.c **** }
+ 516              		.loc 1 75 0 is_stmt 1
+ 517 006c 03B0     		add	sp, sp, #12
+ 518 006e BDE8F08F 		pop	{r4, r5, r6, r7, r8, r9, sl, fp, pc}
+ 519              	.LVL11:
+ 520              	.L27:
+  63:../LIB_HW/Hw_DcMotor.c **** 			if( DutyRatio > Hw_DcMotor_State[i].Speed && Hw_DcMotor_State[i].Pin == TRUE )
+ 521              		.loc 1 63 0
+ 522 0072 8B88     		ldrh	r3, [r1, #4]
+ 523 0074 BB42     		cmp	r3, r7
+ 524 0076 E8D2     		bcs	.L29
+  63:../LIB_HW/Hw_DcMotor.c **** 			if( DutyRatio > Hw_DcMotor_State[i].Speed && Hw_DcMotor_State[i].Pin == TRUE )
+ 525              		.loc 1 63 0 is_stmt 0 discriminator 1
+ 526 0078 8B78     		ldrb	r3, [r1, #2]	@ zero_extendqisi2
+ 527 007a 012B     		cmp	r3, #1
+ 528 007c E5D1     		bne	.L29
+  65:../LIB_HW/Hw_DcMotor.c **** 				Hw_DcMotor_Stop(i);
+ 529              		.loc 1 65 0 is_stmt 1
+ 530 007e 40F20003 		movw	r3, #:lower16:Hw_DcMotor_Stop
+ 531 0082 0191     		str	r1, [sp, #4]
+ 532 0084 2846     		mov	r0, r5
+ 533 0086 C0F20003 		movt	r3, #:upper16:Hw_DcMotor_Stop
+ 534 008a 9847     		blx	r3
+ 535              	.LVL12:
+  66:../LIB_HW/Hw_DcMotor.c **** 				Hw_DcMotor_State[i].Pin = FALSE;
+ 536              		.loc 1 66 0
+ 537 008c 0199     		ldr	r1, [sp, #4]
+ 538 008e 81F80280 		strb	r8, [r1, #2]
+ 539 0092 DAE7     		b	.L29
+ 540              	.L28:
+  53:../LIB_HW/Hw_DcMotor.c **** 				Hw_DcMotor_Stop(i);
+ 541              		.loc 1 53 0
+ 542 0094 40F20003 		movw	r3, #:lower16:Hw_DcMotor_Stop
+ 543 0098 C0F20003 		movt	r3, #:upper16:Hw_DcMotor_Stop
+ 544 009c 9847     		blx	r3
+ 545              	.LVL13:
+  54:../LIB_HW/Hw_DcMotor.c **** 				Hw_DcMotor_State[i].Pin = FALSE;
+ 546              		.loc 1 54 0
+ 547 009e 89F80280 		strb	r8, [r9, #2]
+ 548 00a2 D2E7     		b	.L29
+ 549              	.L40:
+ 550              		.align	2
+ 551              	.L39:
+ 552 00a4 00000000 		.word	.LANCHOR0
+ 553 00a8 00000000 		.word	Hw_DcMotor_State
+ 554              		.cfi_endproc
+ 555              	.LFE0:
+ 557              		.section	.text.Hw_DcMotor_SetPwm,"ax",%progbits
+ 558              		.align	2
+ 559              		.global	Hw_DcMotor_SetPwm
+ 560              		.thumb
+ 561              		.thumb_func
+ 563              	Hw_DcMotor_SetPwm:
+ 564              	.LFB4:
+ 259:../LIB_HW/Hw_DcMotor.c **** 			break;
+ 260:../LIB_HW/Hw_DcMotor.c **** 	}
+ 261:../LIB_HW/Hw_DcMotor.c **** }
+ 262:../LIB_HW/Hw_DcMotor.c **** 
+ 263:../LIB_HW/Hw_DcMotor.c **** 
+ 264:../LIB_HW/Hw_DcMotor.c **** 
+ 265:../LIB_HW/Hw_DcMotor.c **** 
+ 266:../LIB_HW/Hw_DcMotor.c **** 
+ 267:../LIB_HW/Hw_DcMotor.c **** /*---------------------------------------------------------------------------
+ 268:../LIB_HW/Hw_DcMotor.c ****      TITLE   : Hw_DcMotor_SetPwm
+ 269:../LIB_HW/Hw_DcMotor.c ****      WORK    :
+ 270:../LIB_HW/Hw_DcMotor.c ****      ARG     : void
+ 271:../LIB_HW/Hw_DcMotor.c ****      RET     : void
+ 272:../LIB_HW/Hw_DcMotor.c **** ---------------------------------------------------------------------------*/
+ 273:../LIB_HW/Hw_DcMotor.c **** void Hw_DcMotor_SetPwm( u8 Ch, u16 Pwm  )
+ 274:../LIB_HW/Hw_DcMotor.c **** {
+ 565              		.loc 1 274 0
+ 566              		.cfi_startproc
+ 567              		@ args = 0, pretend = 0, frame = 0
+ 568              		@ frame_needed = 0, uses_anonymous_args = 0
+ 569              		@ link register save eliminated.
+ 570              	.LVL14:
+ 275:../LIB_HW/Hw_DcMotor.c **** 	if( Ch >= HW_DCMOTOR_MAX_CH ) return;
+ 571              		.loc 1 275 0
+ 572 0000 0328     		cmp	r0, #3
+ 573 0002 08D8     		bhi	.L41
+ 574              	.LVL15:
+ 276:../LIB_HW/Hw_DcMotor.c **** 
+ 277:../LIB_HW/Hw_DcMotor.c **** 	if( Pwm > HW_DCMOTOR_MAX_PWM ) Pwm = HW_DCMOTOR_MAX_PWM;
+ 278:../LIB_HW/Hw_DcMotor.c **** 
+ 279:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Speed = Pwm;
+ 575              		.loc 1 279 0
+ 576 0004 044B     		ldr	r3, .L43
+ 577 0006 00EB4000 		add	r0, r0, r0, lsl #1
+ 578              	.LVL16:
+ 579 000a 03EB4000 		add	r0, r3, r0, lsl #1
+ 580 000e 6429     		cmp	r1, #100
+ 581 0010 28BF     		it	cs
+ 582 0012 6421     		movcs	r1, #100
+ 583              	.LVL17:
+ 584 0014 8180     		strh	r1, [r0, #4]	@ movhi
+ 585              	.L41:
+ 586 0016 7047     		bx	lr
+ 587              	.L44:
+ 588              		.align	2
+ 589              	.L43:
+ 590 0018 00000000 		.word	Hw_DcMotor_State
+ 591              		.cfi_endproc
+ 592              	.LFE4:
+ 594              		.section	.text.Hw_DcMotor_SetDir,"ax",%progbits
+ 595              		.align	2
+ 596              		.global	Hw_DcMotor_SetDir
+ 597              		.thumb
+ 598              		.thumb_func
+ 600              	Hw_DcMotor_SetDir:
+ 601              	.LFB5:
+ 280:../LIB_HW/Hw_DcMotor.c **** }
+ 281:../LIB_HW/Hw_DcMotor.c **** 
+ 282:../LIB_HW/Hw_DcMotor.c **** 
+ 283:../LIB_HW/Hw_DcMotor.c **** 
+ 284:../LIB_HW/Hw_DcMotor.c **** /*---------------------------------------------------------------------------
+ 285:../LIB_HW/Hw_DcMotor.c ****      TITLE   : Hw_DcMotor_SetDir
+ 286:../LIB_HW/Hw_DcMotor.c ****      WORK    :
+ 287:../LIB_HW/Hw_DcMotor.c ****      ARG     : void
+ 288:../LIB_HW/Hw_DcMotor.c ****      RET     : void
+ 289:../LIB_HW/Hw_DcMotor.c **** ---------------------------------------------------------------------------*/
+ 290:../LIB_HW/Hw_DcMotor.c **** void Hw_DcMotor_SetDir( u8 Ch, u8 Dir  )
+ 291:../LIB_HW/Hw_DcMotor.c **** {
+ 602              		.loc 1 291 0
+ 603              		.cfi_startproc
+ 604              		@ args = 0, pretend = 0, frame = 0
+ 605              		@ frame_needed = 0, uses_anonymous_args = 0
+ 606              		@ link register save eliminated.
+ 607              	.LVL18:
+ 292:../LIB_HW/Hw_DcMotor.c **** 	if( Ch >= HW_DCMOTOR_MAX_CH ) return;
+ 608              		.loc 1 292 0
+ 609 0000 0328     		cmp	r0, #3
+ 293:../LIB_HW/Hw_DcMotor.c **** 
+ 294:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Dir = Dir;
+ 610              		.loc 1 294 0
+ 611 0002 9FBF     		itttt	ls
+ 612 0004 034B     		ldrls	r3, .L47
+ 613 0006 00EB4000 		addls	r0, r0, r0, lsl #1
+ 614              	.LVL19:
+ 615 000a 03EB4000 		addls	r0, r3, r0, lsl #1
+ 616 000e 4170     		strbls	r1, [r0, #1]
+ 617 0010 7047     		bx	lr
+ 618              	.L48:
+ 619 0012 00BF     		.align	2
+ 620              	.L47:
+ 621 0014 00000000 		.word	Hw_DcMotor_State
+ 622              		.cfi_endproc
+ 623              	.LFE5:
+ 625              		.section	.text.Hw_DcMotor_Handle,"ax",%progbits
+ 626              		.align	2
+ 627              		.global	Hw_DcMotor_Handle
+ 628              		.thumb
+ 629              		.thumb_func
+ 631              	Hw_DcMotor_Handle:
+ 632              	.LFB6:
+ 295:../LIB_HW/Hw_DcMotor.c **** }
+ 296:../LIB_HW/Hw_DcMotor.c **** 
+ 297:../LIB_HW/Hw_DcMotor.c **** 
+ 298:../LIB_HW/Hw_DcMotor.c **** 
+ 299:../LIB_HW/Hw_DcMotor.c **** 
+ 300:../LIB_HW/Hw_DcMotor.c **** 
+ 301:../LIB_HW/Hw_DcMotor.c **** /*---------------------------------------------------------------------------
+ 302:../LIB_HW/Hw_DcMotor.c ****      TITLE   : Hw_DcMotor_Handle
+ 303:../LIB_HW/Hw_DcMotor.c ****      WORK    :
+ 304:../LIB_HW/Hw_DcMotor.c ****      ARG     : void
+ 305:../LIB_HW/Hw_DcMotor.c ****      RET     : void
+ 306:../LIB_HW/Hw_DcMotor.c **** ---------------------------------------------------------------------------*/
+ 307:../LIB_HW/Hw_DcMotor.c **** void Hw_DcMotor_Handle( s16 SpeedLeft, s16 SpeedRight )
+ 308:../LIB_HW/Hw_DcMotor.c **** {
+ 633              		.loc 1 308 0
+ 634              		.cfi_startproc
+ 635              		@ args = 0, pretend = 0, frame = 0
+ 636              		@ frame_needed = 0, uses_anonymous_args = 0
+ 637              		@ link register save eliminated.
+ 638              	.LVL20:
+ 309:../LIB_HW/Hw_DcMotor.c **** 	u16 Pwm;
+ 310:../LIB_HW/Hw_DcMotor.c **** 
+ 311:../LIB_HW/Hw_DcMotor.c **** 
+ 312:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedLeft  >  HW_DCMOTOR_MAX_PWM )	SpeedLeft  =  HW_DCMOTOR_MAX_PWM;
+ 639              		.loc 1 312 0
+ 640 0000 6428     		cmp	r0, #100
+ 641 0002 1DDC     		bgt	.L66
+ 313:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedLeft  < -HW_DCMOTOR_MAX_PWM )	SpeedLeft  = -HW_DCMOTOR_MAX_PWM;
+ 642              		.loc 1 313 0
+ 643 0004 6FF06303 		mvn	r3, #99
+ 644 0008 9842     		cmp	r0, r3
+ 645 000a B8BF     		it	lt
+ 646 000c 1846     		movlt	r0, r3
+ 647              	.LVL21:
+ 314:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedRight >  HW_DCMOTOR_MAX_PWM )	SpeedRight =  HW_DCMOTOR_MAX_PWM;
+ 648              		.loc 1 314 0
+ 649 000e 6429     		cmp	r1, #100
+ 650 0010 19DC     		bgt	.L68
+ 651              	.LVL22:
+ 652              	.L72:
+ 315:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedRight < -HW_DCMOTOR_MAX_PWM )	SpeedRight = -HW_DCMOTOR_MAX_PWM;
+ 653              		.loc 1 315 0
+ 654 0012 6FF06303 		mvn	r3, #99
+ 655 0016 9942     		cmp	r1, r3
+ 656 0018 B8BF     		it	lt
+ 657 001a 1946     		movlt	r1, r3
+ 658              	.LVL23:
+ 316:../LIB_HW/Hw_DcMotor.c **** 
+ 317:../LIB_HW/Hw_DcMotor.c **** 
+ 318:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedLeft > 0 )
+ 659              		.loc 1 318 0
+ 660 001c 0028     		cmp	r0, #0
+ 661 001e 15DD     		ble	.L54
+ 662              	.LVL24:
+ 663              	.L73:
+ 664              	.LBB46:
+ 665              	.LBB47:
+ 279:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Speed = Pwm;
+ 666              		.loc 1 279 0
+ 667 0020 1E4B     		ldr	r3, .L77
+ 668              	.LBE47:
+ 669              	.LBE46:
+ 319:../LIB_HW/Hw_DcMotor.c **** 	{
+ 320:../LIB_HW/Hw_DcMotor.c **** 		Pwm = SpeedLeft;
+ 670              		.loc 1 320 0
+ 671 0022 80B2     		uxth	r0, r0
+ 672              	.LVL25:
+ 673              	.LBB49:
+ 674              	.LBB50:
+ 294:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Dir = Dir;
+ 675              		.loc 1 294 0
+ 676 0024 0022     		movs	r2, #0
+ 677              	.LBE50:
+ 678              	.LBE49:
+ 679              	.LBB52:
+ 680              	.LBB48:
+ 279:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Speed = Pwm;
+ 681              		.loc 1 279 0
+ 682 0026 1882     		strh	r0, [r3, #16]	@ movhi
+ 683              	.LVL26:
+ 684              	.LBE48:
+ 685              	.LBE52:
+ 686              	.LBB53:
+ 687              	.LBB54:
+ 688 0028 9880     		strh	r0, [r3, #4]	@ movhi
+ 689              	.LVL27:
+ 690              	.LBE54:
+ 691              	.LBE53:
+ 692              	.LBB55:
+ 693              	.LBB51:
+ 294:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Dir = Dir;
+ 694              		.loc 1 294 0
+ 695 002a 5A73     		strb	r2, [r3, #13]
+ 696              	.LVL28:
+ 697              	.LBE51:
+ 698              	.LBE55:
+ 699              	.LBB56:
+ 700              	.LBB57:
+ 701 002c 5A70     		strb	r2, [r3, #1]
+ 702              	.LVL29:
+ 703              	.L55:
+ 704              	.LBE57:
+ 705              	.LBE56:
+ 321:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetPwm( HW_DCMOTOR_LU, Pwm );
+ 322:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetPwm( HW_DCMOTOR_LD, Pwm );		
+ 323:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetDir( HW_DCMOTOR_LU, HW_DCMOTOR_FOR );
+ 324:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetDir( HW_DCMOTOR_LD, HW_DCMOTOR_FOR );		
+ 325:../LIB_HW/Hw_DcMotor.c **** 	}
+ 326:../LIB_HW/Hw_DcMotor.c **** 	else
+ 327:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedLeft < 0 )
+ 328:../LIB_HW/Hw_DcMotor.c **** 	{
+ 329:../LIB_HW/Hw_DcMotor.c **** 		Pwm = -SpeedLeft;
+ 330:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetPwm( HW_DCMOTOR_LU, Pwm );
+ 331:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetPwm( HW_DCMOTOR_LD, Pwm );		
+ 332:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetDir( HW_DCMOTOR_LU, HW_DCMOTOR_BACK );
+ 333:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetDir( HW_DCMOTOR_LD, HW_DCMOTOR_BACK );		
+ 334:../LIB_HW/Hw_DcMotor.c **** 	}
+ 335:../LIB_HW/Hw_DcMotor.c **** 	else
+ 336:../LIB_HW/Hw_DcMotor.c **** 	{
+ 337:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetDir( HW_DCMOTOR_LU, HW_DCMOTOR_STOP );
+ 338:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetDir( HW_DCMOTOR_LD, HW_DCMOTOR_STOP );				
+ 339:../LIB_HW/Hw_DcMotor.c **** 	}
+ 340:../LIB_HW/Hw_DcMotor.c **** 
+ 341:../LIB_HW/Hw_DcMotor.c **** 
+ 342:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedRight > 0 )
+ 706              		.loc 1 342 0
+ 707 002e 0029     		cmp	r1, #0
+ 708 0030 13DD     		ble	.L59
+ 709              	.L75:
+ 343:../LIB_HW/Hw_DcMotor.c **** 	{
+ 344:../LIB_HW/Hw_DcMotor.c **** 		Pwm = SpeedRight;
+ 710              		.loc 1 344 0
+ 711 0032 89B2     		uxth	r1, r1
+ 712              	.LVL30:
+ 713              	.LBB58:
+ 714              	.LBB59:
+ 294:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Dir = Dir;
+ 715              		.loc 1 294 0
+ 716 0034 0022     		movs	r2, #0
+ 717              	.LBE59:
+ 718              	.LBE58:
+ 719              	.LBB61:
+ 720              	.LBB62:
+ 279:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Speed = Pwm;
+ 721              		.loc 1 279 0
+ 722 0036 D982     		strh	r1, [r3, #22]	@ movhi
+ 723              	.LVL31:
+ 724              	.LBE62:
+ 725              	.LBE61:
+ 726              	.LBB63:
+ 727              	.LBB64:
+ 728 0038 5981     		strh	r1, [r3, #10]	@ movhi
+ 729              	.LVL32:
+ 730              	.LBE64:
+ 731              	.LBE63:
+ 732              	.LBB65:
+ 733              	.LBB60:
+ 294:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Dir = Dir;
+ 734              		.loc 1 294 0
+ 735 003a DA74     		strb	r2, [r3, #19]
+ 736              	.LVL33:
+ 737              	.LBE60:
+ 738              	.LBE65:
+ 739              	.LBB66:
+ 740              	.LBB67:
+ 741 003c DA71     		strb	r2, [r3, #7]
+ 742 003e 7047     		bx	lr
+ 743              	.LVL34:
+ 744              	.L66:
+ 745              	.LBE67:
+ 746              	.LBE66:
+ 312:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedLeft  >  HW_DCMOTOR_MAX_PWM )	SpeedLeft  =  HW_DCMOTOR_MAX_PWM;
+ 747              		.loc 1 312 0
+ 748 0040 6420     		movs	r0, #100
+ 749              	.LVL35:
+ 314:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedRight >  HW_DCMOTOR_MAX_PWM )	SpeedRight =  HW_DCMOTOR_MAX_PWM;
+ 750              		.loc 1 314 0
+ 751 0042 6429     		cmp	r1, #100
+ 752 0044 E5DD     		ble	.L72
+ 753              	.LVL36:
+ 754              	.L68:
+ 755 0046 6421     		movs	r1, #100
+ 756              	.LVL37:
+ 318:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedLeft > 0 )
+ 757              		.loc 1 318 0
+ 758 0048 0028     		cmp	r0, #0
+ 759 004a E9DC     		bgt	.L73
+ 760              	.LVL38:
+ 761              	.L54:
+ 327:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedLeft < 0 )
+ 762              		.loc 1 327 0
+ 763 004c 14D1     		bne	.L74
+ 764              	.LVL39:
+ 765              	.LBB68:
+ 766              	.LBB69:
+ 294:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Dir = Dir;
+ 767              		.loc 1 294 0
+ 768 004e 134B     		ldr	r3, .L77
+ 769 0050 0222     		movs	r2, #2
+ 770              	.LBE69:
+ 771              	.LBE68:
+ 342:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedRight > 0 )
+ 772              		.loc 1 342 0
+ 773 0052 0029     		cmp	r1, #0
+ 774              	.LBB71:
+ 775              	.LBB70:
+ 294:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Dir = Dir;
+ 776              		.loc 1 294 0
+ 777 0054 5A73     		strb	r2, [r3, #13]
+ 778              	.LVL40:
+ 779              	.LBE70:
+ 780              	.LBE71:
+ 781              	.LBB72:
+ 782              	.LBB73:
+ 783 0056 5A70     		strb	r2, [r3, #1]
+ 784              	.LBE73:
+ 785              	.LBE72:
+ 342:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedRight > 0 )
+ 786              		.loc 1 342 0
+ 787 0058 EBDC     		bgt	.L75
+ 788              	.LVL41:
+ 789              	.L59:
+ 345:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetPwm( HW_DCMOTOR_RU, Pwm );
+ 346:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetPwm( HW_DCMOTOR_RD, Pwm );		
+ 347:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetDir( HW_DCMOTOR_RU, HW_DCMOTOR_FOR );
+ 348:../LIB_HW/Hw_DcMotor.c **** 		Hw_DcMotor_SetDir( HW_DCMOTOR_RD, HW_DCMOTOR_FOR );		
+ 349:../LIB_HW/Hw_DcMotor.c **** 	}
+ 350:../LIB_HW/Hw_DcMotor.c **** 	else
+ 351:../LIB_HW/Hw_DcMotor.c **** 	if( SpeedRight < 0 )
+ 790              		.loc 1 351 0
+ 791 005a 03D1     		bne	.L76
+ 792              	.LVL42:
+ 793              	.LBB74:
+ 794              	.LBB75:
+ 294:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Dir = Dir;
+ 795              		.loc 1 294 0
+ 796 005c 0222     		movs	r2, #2
+ 797 005e DA74     		strb	r2, [r3, #19]
+ 798              	.LVL43:
+ 799              	.LBE75:
+ 800              	.LBE74:
+ 801              	.LBB76:
+ 802              	.LBB77:
+ 803 0060 DA71     		strb	r2, [r3, #7]
+ 804 0062 7047     		bx	lr
+ 805              	.LVL44:
+ 806              	.L76:
+ 807              	.LBE77:
+ 808              	.LBE76:
+ 352:../LIB_HW/Hw_DcMotor.c **** 	{
+ 353:../LIB_HW/Hw_DcMotor.c **** 		Pwm = -SpeedRight;
+ 809              		.loc 1 353 0
+ 810 0064 4942     		negs	r1, r1
+ 811 0066 89B2     		uxth	r1, r1
+ 812              	.LVL45:
+ 813              	.LBB78:
+ 814              	.LBB79:
+ 277:../LIB_HW/Hw_DcMotor.c **** 	if( Pwm > HW_DCMOTOR_MAX_PWM ) Pwm = HW_DCMOTOR_MAX_PWM;
+ 815              		.loc 1 277 0
+ 816 0068 6429     		cmp	r1, #100
+ 817 006a 14D8     		bhi	.L62
+ 279:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Speed = Pwm;
+ 818              		.loc 1 279 0
+ 819 006c D982     		strh	r1, [r3, #22]	@ movhi
+ 820              	.LVL46:
+ 821              	.L65:
+ 822              	.LBE79:
+ 823              	.LBE78:
+ 824              	.LBB81:
+ 825              	.LBB82:
+ 294:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Dir = Dir;
+ 826              		.loc 1 294 0
+ 827 006e 0122     		movs	r2, #1
+ 828              	.LBE82:
+ 829              	.LBE81:
+ 830              	.LBB84:
+ 831              	.LBB85:
+ 279:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Speed = Pwm;
+ 832              		.loc 1 279 0
+ 833 0070 5981     		strh	r1, [r3, #10]	@ movhi
+ 834              	.LVL47:
+ 835              	.LBE85:
+ 836              	.LBE84:
+ 837              	.LBB86:
+ 838              	.LBB83:
+ 294:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Dir = Dir;
+ 839              		.loc 1 294 0
+ 840 0072 DA74     		strb	r2, [r3, #19]
+ 841              	.LVL48:
+ 842              	.LBE83:
+ 843              	.LBE86:
+ 844              	.LBB87:
+ 845              	.LBB88:
+ 846 0074 DA71     		strb	r2, [r3, #7]
+ 847 0076 7047     		bx	lr
+ 848              	.LVL49:
+ 849              	.L74:
+ 850              	.LBE88:
+ 851              	.LBE87:
+ 329:../LIB_HW/Hw_DcMotor.c **** 		Pwm = -SpeedLeft;
+ 852              		.loc 1 329 0
+ 853 0078 4042     		negs	r0, r0
+ 854 007a 80B2     		uxth	r0, r0
+ 855              	.LVL50:
+ 856              	.LBB89:
+ 857              	.LBB90:
+ 277:../LIB_HW/Hw_DcMotor.c **** 	if( Pwm > HW_DCMOTOR_MAX_PWM ) Pwm = HW_DCMOTOR_MAX_PWM;
+ 858              		.loc 1 277 0
+ 859 007c 6428     		cmp	r0, #100
+ 860 007e 06D8     		bhi	.L57
+ 279:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Speed = Pwm;
+ 861              		.loc 1 279 0
+ 862 0080 064B     		ldr	r3, .L77
+ 863 0082 1882     		strh	r0, [r3, #16]	@ movhi
+ 864              	.LVL51:
+ 865              	.L64:
+ 866              	.LBE90:
+ 867              	.LBE89:
+ 868              	.LBB92:
+ 869              	.LBB93:
+ 294:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Dir = Dir;
+ 870              		.loc 1 294 0
+ 871 0084 0122     		movs	r2, #1
+ 872              	.LBE93:
+ 873              	.LBE92:
+ 874              	.LBB95:
+ 875              	.LBB96:
+ 279:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Speed = Pwm;
+ 876              		.loc 1 279 0
+ 877 0086 9880     		strh	r0, [r3, #4]	@ movhi
+ 878              	.LVL52:
+ 879              	.LBE96:
+ 880              	.LBE95:
+ 881              	.LBB97:
+ 882              	.LBB94:
+ 294:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Dir = Dir;
+ 883              		.loc 1 294 0
+ 884 0088 5A73     		strb	r2, [r3, #13]
+ 885              	.LVL53:
+ 886              	.LBE94:
+ 887              	.LBE97:
+ 888              	.LBB98:
+ 889              	.LBB99:
+ 890 008a 5A70     		strb	r2, [r3, #1]
+ 891 008c CFE7     		b	.L55
+ 892              	.LVL54:
+ 893              	.L57:
+ 894              	.LBE99:
+ 895              	.LBE98:
+ 896              	.LBB100:
+ 897              	.LBB91:
+ 279:../LIB_HW/Hw_DcMotor.c **** 	Hw_DcMotor_State[Ch].Speed = Pwm;
+ 898              		.loc 1 279 0
+ 899 008e 034B     		ldr	r3, .L77
+ 900 0090 6420     		movs	r0, #100
+ 901              	.LVL55:
+ 902 0092 1882     		strh	r0, [r3, #16]	@ movhi
+ 903              	.LVL56:
+ 904 0094 F6E7     		b	.L64
+ 905              	.LVL57:
+ 906              	.L62:
+ 907              	.LBE91:
+ 908              	.LBE100:
+ 909              	.LBB101:
+ 910              	.LBB80:
+ 911 0096 6421     		movs	r1, #100
+ 912              	.LVL58:
+ 913 0098 D982     		strh	r1, [r3, #22]	@ movhi
+ 914              	.LVL59:
+ 915 009a E8E7     		b	.L65
+ 916              	.L78:
+ 917              		.align	2
+ 918              	.L77:
+ 919 009c 00000000 		.word	Hw_DcMotor_State
+ 920              	.LBE80:
+ 921              	.LBE101:
+ 922              		.cfi_endproc
+ 923              	.LFE6:
+ 925              		.comm	Hw_DcMotor_State,24,4
+ 926              		.section	.bss.Cnt.4391,"aw",%nobits
+ 927              		.align	1
+ 928              		.set	.LANCHOR0,. + 0
+ 931              	Cnt.4391:
+ 932 0000 0000     		.space	2
+ 933              		.text
+ 934              	.Letext0:
+ 935              		.file 2 "../LIB_HW/Hw_Define.h"
+ 936              		.file 3 "../LIB_HW/Hw_DcMotor.h"
 DEFINED SYMBOLS
-                            *ABS*:0000000000000000 Ap_EduMenu.c
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:19     .text.KeyPad_DownKeyEvent:0000000000000000 $t
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:24     .text.KeyPad_DownKeyEvent:0000000000000000 KeyPad_DownKeyEvent
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:70     .text.KeyPad_DownKeyEvent:0000000000000020 $d
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:79     .text.KeyPad_UpKeyEvent:0000000000000000 $t
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:84     .text.KeyPad_UpKeyEvent:0000000000000000 KeyPad_UpKeyEvent
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:122    .text.KeyPad_UpKeyEvent:000000000000001c $d
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:131    .text.Ap_EduMenu_ShowMenu:0000000000000000 $t
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:136    .text.Ap_EduMenu_ShowMenu:0000000000000000 Ap_EduMenu_ShowMenu
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:729    .rodata.str1.4:0000000000000004 .LC1
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:732    .rodata.str1.4:0000000000000008 .LC2
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:736    .rodata.str1.4:0000000000000044 .LC3
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:740    .rodata.str1.4:0000000000000080 .LC4
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:744    .rodata.str1.4:00000000000000bc .LC5
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:748    .rodata.str1.4:00000000000000f8 .LC6
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:752    .rodata.str1.4:0000000000000134 .LC7
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:756    .rodata.str1.4:0000000000000170 .LC8
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:760    .rodata.str1.4:00000000000001ac .LC9
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:764    .rodata.str1.4:00000000000001e8 .LC10
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:768    .rodata.str1.4:0000000000000224 .LC11
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:772    .rodata.str1.4:0000000000000260 .LC12
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:776    .rodata.str1.4:000000000000029c .LC13
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:780    .rodata.str1.4:00000000000002d8 .LC14
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:239    .text.Ap_EduMenu_GetCmd:0000000000000000 $t
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:244    .text.Ap_EduMenu_GetCmd:0000000000000000 Ap_EduMenu_GetCmd
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:783    .rodata.str1.4:00000000000002dc .LC15
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:284    .text.Ap_EduMenu_ExeCmd:0000000000000000 $t
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:289    .text.Ap_EduMenu_ExeCmd:0000000000000000 Ap_EduMenu_ExeCmd
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:360    .text.Ap_EduMenu_ExeCmd:0000000000000048 $d
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:423    .text.Ap_EduMenu_ExeCmd:000000000000013c $t
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:691    .text.Ap_EduMenu_ExeCmd:00000000000002a0 $d
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:823    .bss.Seg_Count:0000000000000000 Seg_Count
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:725    .rodata.str1.4:0000000000000000 $d
-/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccWF1Uno.s:819    .bss.Seg_Count:0000000000000000 $d
+                            *ABS*:0000000000000000 Hw_DcMotor.c
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccEZjKB7.s:19     .text.Hw_DcMotor_Run:0000000000000000 $t
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccEZjKB7.s:24     .text.Hw_DcMotor_Run:0000000000000000 Hw_DcMotor_Run
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccEZjKB7.s:38     .text.Hw_DcMotor_Run:0000000000000008 $d
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccEZjKB7.s:42     .text.Hw_DcMotor_Run:000000000000000c $t
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccEZjKB7.s:146    .text.Hw_DcMotor_Stop:0000000000000000 $t
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccEZjKB7.s:151    .text.Hw_DcMotor_Stop:0000000000000000 Hw_DcMotor_Stop
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccEZjKB7.s:164    .text.Hw_DcMotor_Stop:0000000000000008 $d
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccEZjKB7.s:168    .text.Hw_DcMotor_Stop:000000000000000c $t
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccEZjKB7.s:228    .text.Hw_DcMotor_Init:0000000000000000 $t
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccEZjKB7.s:233    .text.Hw_DcMotor_Init:0000000000000000 Hw_DcMotor_Init
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccEZjKB7.s:417    .text.Hw_DcMotor_Init:0000000000000104 $d
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccEZjKB7.s:431    .text.Hw_DcMotor_Tick:0000000000000000 Hw_DcMotor_Tick
+                            *COM*:0000000000000018 Hw_DcMotor_State
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccEZjKB7.s:426    .text.Hw_DcMotor_Tick:0000000000000000 $t
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccEZjKB7.s:552    .text.Hw_DcMotor_Tick:00000000000000a4 $d
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccEZjKB7.s:558    .text.Hw_DcMotor_SetPwm:0000000000000000 $t
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccEZjKB7.s:563    .text.Hw_DcMotor_SetPwm:0000000000000000 Hw_DcMotor_SetPwm
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccEZjKB7.s:590    .text.Hw_DcMotor_SetPwm:0000000000000018 $d
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccEZjKB7.s:595    .text.Hw_DcMotor_SetDir:0000000000000000 $t
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccEZjKB7.s:600    .text.Hw_DcMotor_SetDir:0000000000000000 Hw_DcMotor_SetDir
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccEZjKB7.s:621    .text.Hw_DcMotor_SetDir:0000000000000014 $d
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccEZjKB7.s:626    .text.Hw_DcMotor_Handle:0000000000000000 $t
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccEZjKB7.s:631    .text.Hw_DcMotor_Handle:0000000000000000 Hw_DcMotor_Handle
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccEZjKB7.s:919    .text.Hw_DcMotor_Handle:000000000000009c $d
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccEZjKB7.s:927    .bss.Cnt.4391:0000000000000000 $d
+/var/folders/bz/nn5481rn5xq59rb0mbj7x0880000gn/T//ccEZjKB7.s:931    .bss.Cnt.4391:0000000000000000 Cnt.4391
                      .debug_frame:0000000000000010 $d
 
 UNDEFINED SYMBOLS
-Hw_7Seg_Print
-Lb_printf
-get_byte
-Hw_Adc_GetData
-Hw_KeyPad_GetRepeatCnt
-Hw_KeyPad_SetEventFunc
-Hw_Uart_GetchNoWait
-Hw_Uart_Print
-Hw_CLcd_Print
-Hw_KeyPad_WaitForEvent
-Hw_KeyPad_GetPressedCnt
-Hw_Led_Toggle
-Hw_Timer_Delay_ms
-Hw_KeyPad_GetEventKeyNum
-Hw_KeyPad_GetEventKeyData
+Hw_Timer_Set
+Hw_Timer_Start

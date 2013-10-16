@@ -51,10 +51,17 @@ SRC_AP = 	../main.c		\
 			../LIB_AP/Ap_RadioMenu.c	\
 			../LIB_AP/Ap_Radio.c		\
 			../LIB_AP/Ap_GLcdMenu.c		\
-			../LIB_AP/Ap_EduMenu.c
+			../LIB_AP/Ap_EduMenu.c 		\
+			../LIB_AP/Ap_StrCmd.c 		\
+			../LIB_AP/Ap_StrCmd_Q.c 	\
+										\
+			../LIB_AP/Ap_StrCmd_List.c 	\
+			../LIB_AP/Ap_StrCmd_MOVE.c 	
+
 
 SRC_LB = 	../LIB_LB/Lb_Util.c	\
-			../LIB_LB/Lb_Printf.c
+			../LIB_LB/Lb_Printf.c \
+
 
 SRC_HW = 	../LIB_HW/$(STARTUP_C)	\
 			../LIB_HW/Hw.c			\
@@ -168,7 +175,7 @@ ALLOBJ = $(addsuffix .o, $(ALLSRCBASE))
 
 
 # Default target.
-all: createdirs build
+all: createdirs build sizeinfo
 
 elf: $(TARGET).elf
 lss: $(TARGET).lss 
@@ -176,6 +183,11 @@ sym: $(TARGET).sym
 hex: $(TARGET).hex
 bin: $(TARGET).bin
 
+
+ELFSIZE = $(SIZE) -A $(TARGET).elf
+
+sizeinfo:
+	$(ELFSIZE)
 
 build: elf hex bin lss sym
 

@@ -344,6 +344,7 @@ void Lb_vsprintf( char *pStr, char *fmt, Lb_va_list args )
 				case 'd' :
 					PrintDec(format, va_arg(args, int));
 					break;
+				case 'X' :
 				case 'x' :
 					PrintHex(format, va_arg(args, int));
 					break;
@@ -382,6 +383,13 @@ void PrintDec(char *fmt, int l)
 	long        flagcnt=0;              	// "%08lx"에서 "8"을 찾아서 long형으로.
 	bool        leading_zero=true;			// long형의 data를 출력하기 위한 변수.
 	long        divisor, result, remainder;
+	char        sign = 0;
+
+	if( l < 0 )
+	{
+		sign = 1;
+		l = -l;	
+	}
 
 
 	// fmt의 "%08lx"에서 '0', '8', 'l'을 해석.
@@ -402,6 +410,9 @@ void PrintDec(char *fmt, int l)
 		else if (c=='l') flagl=true;
 		else continue;
 	}
+
+	if( sign == 1 ) print_byte_out('-');
+
 
 	// 위의 flag에 따라 출력.
 	if (flagcnt)

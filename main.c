@@ -78,7 +78,8 @@ int main(void)
 	Lb_printf("ezExplorer\n");
     while(1)
     {
-    	Test_DCMOTOR();
+    	//Test_DCMOTOR();
+    	Ap_StrCmd_ExeCmd();
     }
     
 

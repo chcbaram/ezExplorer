@@ -66,7 +66,7 @@ EXT_HW_UART_DEF void Hw_Uart_Print( u8 Ch, char *UartPrintData, ... );
 EXT_HW_UART_DEF u8   Hw_Uart_GetchNoWait( u8 Ch, u8 *cReturn );
 EXT_HW_UART_DEF void Hw_Uart_SetReceiveFuncISR( u8 Ch, void (*ISR_FuncPtr)(char Ch) );
 
-EXT_HW_UART_DEF char get_byte(void);                                            
+                                          
 
 #endif
                                                                                                  

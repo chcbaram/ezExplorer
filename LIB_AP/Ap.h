@@ -30,6 +30,9 @@
 #include "Ap_Define.h"
 #include "Lb_Util.h"
 
+#include "Ap_StrCmd.h"
+#include "Ap_StrCmd_List.h"
+
 #include "Ap_RadioMenu.h"
 #include "Ap_Radio.h"
 #include "Ap_GLcdMenu.h"

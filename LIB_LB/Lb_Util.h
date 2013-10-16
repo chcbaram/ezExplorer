@@ -35,7 +35,10 @@
 
 EXT_LB_UTIL_DEF void delay(volatile unsigned int timeCount);
 EXT_LB_UTIL_DEF void delay_second(void);
-                                            
+                        
+EXT_LB_UTIL_DEF int  Lb_Util_PaseArgs(char *cmdline, char **argv);
+EXT_LB_UTIL_DEF int  Lb_Util_atoi(char *str);
+
 
 #endif
                                                                                                  

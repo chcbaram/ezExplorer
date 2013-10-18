@@ -269,7 +269,14 @@ void Hw_Uart_Open_COM2( u32 BaudData, void (*ISR_FuncPtr)(char Ch) )
 ---------------------------------------------------------------------------*/
 void Hw_Uart_SetReceiveFuncISR( u8 Ch, void (*ISR_FuncPtr)(char Ch) )
 {
-	Hw_Uart_Ch[Ch].ISR_FuncPtr = ISR_FuncPtr;	
+	if( Ch == HW_UART_VCOM )
+	{
+		Hw_VCom_SetReceiveFuncISR( ISR_FuncPtr );
+	}
+	else
+	{
+		Hw_Uart_Ch[Ch].ISR_FuncPtr = ISR_FuncPtr;			
+	}
 }
 
 
@@ -286,6 +293,11 @@ void Hw_Uart_SetReceiveFuncISR( u8 Ch, void (*ISR_FuncPtr)(char Ch) )
 u8 Hw_Uart_Getch( u8 Ch )
 {
 	u8 Uart_GetData = 0;
+
+	if( Ch == HW_UART_VCOM )
+	{
+		return Hw_VCom_Getch();
+	}
 
 	while( 1 )
 	{
@@ -330,7 +342,11 @@ void Hw_Uart_Putch( u8 Ch,  char Uart_PutData )
 			break;
 
 		case HW_UART_COM5:
-			break;			
+			break;		
+
+		case HW_UART_VCOM:
+			Hw_VCom_Putch( Uart_PutData );
+			break;	
 	}	
 }
 

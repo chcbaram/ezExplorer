@@ -54,6 +54,8 @@
 ---------------------------------------------------------------------------*/
 void Hw_VCom_Init( void )
 {
+	Hw_VCom_RxdFuncPtr = NULL;
+
 	Set_System();
 	Set_USBClock();
 	USB_Interrupts_Config();
@@ -102,4 +104,18 @@ extern void USB_Send_Data( u8 SendData );
 void Hw_VCom_Putch( char Uart_PutData )
 {
 	USB_Send_Data( Uart_PutData );
+}
+
+
+
+/*---------------------------------------------------------------------------
+     TITLE	: Hw_Uart_SetReceiveFuncISR
+     WORK
+			: 시리얼 포트에서 데이터 수신시 실행할 함수 설정 .
+     ARG
+     RET
+---------------------------------------------------------------------------*/
+void Hw_VCom_SetReceiveFuncISR( void (*ISR_FuncPtr)(char Ch) )
+{
+	Hw_VCom_RxdFuncPtr = ISR_FuncPtr;	
 }

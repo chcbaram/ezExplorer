@@ -31,6 +31,8 @@
 #endif
 
 
+EXT_HW_VCOM_DEF void (*Hw_VCom_RxdFuncPtr)(char Ch);
+
 
 
 EXT_HW_VCOM_DEF void Hw_VCom_Init( void );

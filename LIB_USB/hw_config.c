@@ -46,6 +46,7 @@
 #include "usb_istr.h"
 #include "Lb_Printf.h"
 #include "Hw_Uart.h"
+#include "Hw_VCom.h"
 
 //ErrorStatus HSEStartUpStatus;
 //USART_InitTypeDef USART_InitStructure;
@@ -248,6 +249,11 @@ void USB_To_USART_Send_Data(uint8_t* data_buffer, uint8_t Nb_bytes)
     //
     UartData = *(data_buffer + i);
     Hw_Uart_Q_Push( 5, &UartData );	//
+
+    if( Hw_VCom_RxdFuncPtr != NULL )
+    {
+      Hw_VCom_RxdFuncPtr( UartData );      
+    }
   }  
 }
 

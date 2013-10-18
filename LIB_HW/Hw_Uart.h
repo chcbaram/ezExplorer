@@ -26,9 +26,12 @@
 #define  HW_UART_COM3   2
 #define  HW_UART_COM4   3
 #define  HW_UART_COM5   4
+#define  HW_UART_VCOM   5	// VCom
 
 
-#define HW_UART_MAX_CH  5
+
+#define HW_UART_MAX_CH  6
+
 
 
 

@@ -345,7 +345,7 @@ public class BCamUI extends Activity implements RejectedExecutionHandler {
 						mConnectedTask.sendOneByte((byte)'0');
 						mConnectedTask.sendOneByte((byte)'0');
 						mConnectedTask.sendOneByte((byte)'\r');
-						mConnectedTask.sendOneByte((byte)'\n');
+						//mConnectedTask.sendOneByte((byte)'\n');
 					}
 					break;
 				case MotionEvent.ACTION_DOWN :
@@ -368,7 +368,7 @@ public class BCamUI extends Activity implements RejectedExecutionHandler {
 						mConnectedTask.sendOneByte((byte)'0');
 						mConnectedTask.sendOneByte((byte)'0');
 						mConnectedTask.sendOneByte((byte)'\r');
-						mConnectedTask.sendOneByte((byte)'\n');
+						//mConnectedTask.sendOneByte((byte)'\n');
 					}
 					break;
 				}
@@ -402,7 +402,7 @@ public class BCamUI extends Activity implements RejectedExecutionHandler {
 						mConnectedTask.sendOneByte((byte)'0');
 						mConnectedTask.sendOneByte((byte)'0');
 						mConnectedTask.sendOneByte((byte)'\r');
-						mConnectedTask.sendOneByte((byte)'\n');
+						//mConnectedTask.sendOneByte((byte)'\n');
 					}
 					break;
 				case MotionEvent.ACTION_DOWN :
@@ -426,7 +426,7 @@ public class BCamUI extends Activity implements RejectedExecutionHandler {
 						mConnectedTask.sendOneByte((byte)'0');
 						mConnectedTask.sendOneByte((byte)'0');
 						mConnectedTask.sendOneByte((byte)'\r');
-						mConnectedTask.sendOneByte((byte)'\n');
+						//mConnectedTask.sendOneByte((byte)'\n');
 					}
 					break;
 				}
@@ -461,7 +461,7 @@ public class BCamUI extends Activity implements RejectedExecutionHandler {
 						mConnectedTask.sendOneByte((byte)'0');
 						mConnectedTask.sendOneByte((byte)'0');
 						mConnectedTask.sendOneByte((byte)'\r');
-						mConnectedTask.sendOneByte((byte)'\n');
+						//mConnectedTask.sendOneByte((byte)'\n');
 					}
 					break;
 				case MotionEvent.ACTION_DOWN :
@@ -485,7 +485,7 @@ public class BCamUI extends Activity implements RejectedExecutionHandler {
 						mConnectedTask.sendOneByte((byte)'0');
 						mConnectedTask.sendOneByte((byte)'0');
 						mConnectedTask.sendOneByte((byte)'\r');
-						mConnectedTask.sendOneByte((byte)'\n');
+						//mConnectedTask.sendOneByte((byte)'\n');
 					}
 					break;
 				}
@@ -520,7 +520,7 @@ public class BCamUI extends Activity implements RejectedExecutionHandler {
 						mConnectedTask.sendOneByte((byte)'0');
 						mConnectedTask.sendOneByte((byte)'0');
 						mConnectedTask.sendOneByte((byte)'\r');
-						mConnectedTask.sendOneByte((byte)'\n');
+						//mConnectedTask.sendOneByte((byte)'\n');
 					}
 					break;
 				case MotionEvent.ACTION_DOWN :
@@ -545,7 +545,7 @@ public class BCamUI extends Activity implements RejectedExecutionHandler {
 						mConnectedTask.sendOneByte((byte)'0');
 						mConnectedTask.sendOneByte((byte)'0');
 						mConnectedTask.sendOneByte((byte)'\r');
-						mConnectedTask.sendOneByte((byte)'\n');
+						//mConnectedTask.sendOneByte((byte)'\n');
 					}
 					break;
 				}

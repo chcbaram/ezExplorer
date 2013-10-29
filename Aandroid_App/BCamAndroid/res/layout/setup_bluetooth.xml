@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
+
+	<Button android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="EnsureSupported"
+		android:onClick="onEnsureSupportedButtonClick" />
+
+	<Button android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="EnsureEnabled"
+		android:onClick="onEnsureEnabledButtonClick" />
+
+	<Button android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="TurnOnBluetooth"
+		android:onClick="onTurnOnBluetoothButtonClick" />
+
+	<Button android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:text="TurnOffBluetooth"
+		android:onClick="onTurnOffBluetoothButtonClick" />
+
+</LinearLayout>

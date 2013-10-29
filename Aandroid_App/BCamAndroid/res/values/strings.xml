@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="app_name">BCam Android</string>
+    
+    <string name="unknown_device">unknown_device</string>
+	<string name="evt_connected">evt_connected</string>
+	<string name="evt_connection_failure">evt_connection_failure</string>
+	<string name="evt_disconnected">evt_disconnected</string>
+	<string name="evt_receive">evt_receive</string>
+    
+</resources>

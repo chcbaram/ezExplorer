@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    android:paddingBottom="20px"
+    android:paddingLeft="30px"
+    android:paddingRight="30px"
+    android:paddingTop="20px" >
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Please touch menu button to connect" />
+
+    <View
+        android:id="@+id/view1"
+        android:layout_width="wrap_content"
+        android:layout_height="20px" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="154px"
+        android:layout_height="wrap_content"
+        android:text="Cam Image" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="320px"
+            android:layout_height="240px"
+            android:background="#AAAAAA"
+            android:src="@drawable/camera" />
+    </LinearLayout>
+
+    <TableLayout
+        android:id="@+id/tableLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center|center_vertical" >
+
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="50dp"
+                android:layout_height="70dp"
+                android:layout_gravity="center"
+                android:background="@drawable/arrow_up" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center" >
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="50dp"
+                android:layout_height="70dp"
+                android:background="@drawable/arrow_left"
+                android:text="" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="50dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="100dp"
+                android:background="@drawable/arrow_right" />
+        </TableRow>
+
+        <TableRow android:gravity="center" >
+            android:id="@+id/tableRow4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center" >
+
+
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="50dp"
+                android:layout_height="70dp"
+                android:background="@drawable/arrow_down" />
+        </TableRow>
+    </TableLayout>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="200dp"
+        android:src="@drawable/cns" />
+
+</LinearLayout>
